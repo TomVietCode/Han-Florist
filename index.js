@@ -1,6 +1,7 @@
 const express = require("express")
 const dotenv = require("dotenv").config()
 const database = require("./config/database.js")
+const systemConfig = require("./config/system.js")
 
 database.connect()
 
@@ -16,6 +17,9 @@ app.set("view engine", "pug")
 
 //Nhúng file tĩnh
 app.use(express.static("public"))
+
+// App local variable
+app.locals.prefixAdmin = systemConfig.prefixAdmin
 
 //Routes Admin
 routesAdmin(app)
