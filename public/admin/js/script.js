@@ -32,6 +32,7 @@ if(formSearch){
 
     if(keyword){
       url.searchParams.set("keyword", keyword)
+      url.searchParams.set("page", 1)
     }else{
       url.searchParams.delete("keyword")
     }
@@ -39,5 +40,23 @@ if(formSearch){
     window.location.href = url.href
   })
 }
-
 // End Form Search
+
+
+// Pagination
+const buttonPagination = document.querySelectorAll("[button-pagination]")
+
+if(buttonPagination.length > 0){
+  let url = new URL(window.location.href)
+
+  buttonPagination.forEach(button => {
+    button.addEventListener("click", () => {
+      const toGoPage = button.getAttribute("button-pagination")
+
+      url.searchParams.set("page", toGoPage)
+      
+      window.location.href = url
+    })
+  })
+}
+// End Pagination
