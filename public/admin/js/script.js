@@ -14,7 +14,9 @@ if(buttonsStatus.length > 0){
         url.searchParams.delete("status")
       }
 
-      window.location.href = url.href
+      url.searchParams.set("page", 1)  //Set page to 1 when change Filter Status (incase that filter-status have less page than the origin) 
+      
+      window.location.href = url
     })
   })
 }
