@@ -3,6 +3,8 @@ const dotenv = require("dotenv").config()
 const database = require("./config/database.js")
 const systemConfig = require("./config/system.js")
 const methodOverride = require("method-override")
+const bodyParser = require("body-parser")
+
 
 database.connect()
 
@@ -21,6 +23,9 @@ app.use(express.static("public"))
 
 // Method override (Ghi đè phương thức)
 app.use(methodOverride(`_method`))
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
 
 // App local variable
 app.locals.prefixAdmin = systemConfig.prefixAdmin
