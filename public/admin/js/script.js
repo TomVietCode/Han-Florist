@@ -142,3 +142,23 @@ if(formChangeMulti){
   })
 }
 // End Form Change Multi Status
+
+// Delete Item
+const formDeleteItem = document.querySelector("[form-delete-item]")
+if(formDeleteItem){
+  const listButtonDelete = document.querySelectorAll("[button-delete]")
+
+  listButtonDelete.forEach(button => {
+    button.addEventListener("click", () => {
+      const id = button.getAttribute("data-id")
+      const path = formDeleteItem.getAttribute("data-path")
+
+      let action = `${path}/${id}?_method=DELETE`
+      console.log(action)
+      formDeleteItem.action = action
+
+      formDeleteItem.submit()
+    })
+  })
+}
+// End Delete Item
