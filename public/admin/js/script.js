@@ -117,19 +117,26 @@ listCheckboxId.forEach(input => {
 // Form Change Multi Status
 const formChangeMulti = document.querySelector("[form-change-multi]")
 if(formChangeMulti){
-  formChangeMulti.addEventListener("submit", (e) => {
-    e.preventDefault();
+  formChangeMulti.addEventListener("submit", (event) => {
+    event.preventDefault();
   
     const listInputChecked = checkboxMulti.querySelectorAll("[name=id]:checked")
 
     const type = formChangeMulti.querySelector("select[name='type']").value
   
-    if(listInputChecked){
+    if(listInputChecked.length > 0){
       let ids = []
   
       listInputChecked.forEach(input => {
         const inputId = input.value
-        ids.push(inputId)
+
+        if(type == "change-position"){
+          const inputPosition = input.closest("tr").querySelector("[name='position']").value
+          console.log(inputPosition)
+          ids.push(`${inputId}-${inputPosition}`)
+        }else{
+          ids.push(inputId)
+        }
       })
 
       if(type == "delete-all"){
