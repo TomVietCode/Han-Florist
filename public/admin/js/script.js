@@ -121,7 +121,9 @@ if(formChangeMulti){
     e.preventDefault();
   
     const listInputChecked = checkboxMulti.querySelectorAll("[name=id]:checked")
-    
+
+    const type = formChangeMulti.querySelector("select[name='type']").value
+  
     if(listInputChecked){
       let ids = []
   
@@ -129,6 +131,12 @@ if(formChangeMulti){
         const inputId = input.value
         ids.push(inputId)
       })
+
+      if(type == "delete-all"){
+        const isConfirm = confirm("Bạn có chắc chắn muốn xóa?")
+
+        if(!isConfirm) return
+      }
 
       const stringIds = ids.join(", ")
       const input = formChangeMulti.querySelector("[name='ids']")
