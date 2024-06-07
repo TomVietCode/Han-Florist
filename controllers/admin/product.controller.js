@@ -12,9 +12,17 @@ module.exports.index = async (req, res) => {
     deleted: false,
   };
 
+  let findDeleted = {
+    deleted: true,
+  };
+
   if (req.query.status) {
     find.status = req.query.status;
   }
+
+  // Count Deleted
+  const countDeleted = (await Product.find(findDeleted)).length
+  // End Count Deleted
 
   //Search
   let keyword = "";
@@ -40,6 +48,7 @@ module.exports.index = async (req, res) => {
   res.render("admin/pages/products/index.pug", {
     pageTitle: "Danh sách sản phẩm",
     products: products,
+    countDeleted: countDeleted,
     filterStatus: filterStatus,
     keyword: keyword,
     pagination: objectPagination,
@@ -86,3 +95,50 @@ module.exports.deleteItem = async (req, res) => {
   res.redirect(`back`);
 };
 
+//[GET] /admin/products/recyce-bin
+module.exports.recycleBin = async (req, res) => {
+  let find = {
+    deleted: true,
+  };
+
+  if (req.query.status) {
+    find.status = req.query.status;
+  }
+
+  //Search
+  let keyword = "";
+
+  if (req.query.keyword) {
+    keyword = req.query.keyword;
+
+    const regex = new RegExp(keyword, "i");
+    find.title = regex;
+  }
+  //End Search
+
+  // Pagination
+  const countProducts = await Product.countDocuments(find);
+  const objectPagination = paginationHelper(req.query, 4, countProducts);
+  // End Pagination
+
+  const products = await Product.find(find)
+    .limit(objectPagination.limitItems)
+    .skip(objectPagination.skip);
+
+  // Render to /view/
+  res.render("admin/pages/products/recycle-bin.pug", {
+    pageTitle: "Thùng rác",
+    products: products,
+    keyword: keyword,
+    pagination: objectPagination,
+  });
+};
+
+// [PATCH] /admin/products/recycle-bin/recycle-item/:id
+module.exports.recycleItem = async (req, res) => {
+  const id = req.params.id;
+
+  await Product.updateOne({ _id: id }, {deleted: false});
+
+  res.redirect(`back`);
+};

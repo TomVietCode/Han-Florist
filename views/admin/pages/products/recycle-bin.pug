@@ -7,50 +7,23 @@ block main
   h1(class="mb-4") #{pageTitle}
 
   .card.mb-3 
-    .card-header Bộ lọc và Tìm kiếm
+    .card-header Tìm kiếm
       a(
-        href="/admin/products/recycle-bin"
+        href="/admin/products"
         class="btn btn-primary position-relative float-right"
-      ) Thùng rác
-        span(
-          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-        ) #{countDeleted}
+      ) Trang sản phẩm
     .card-body
       .row
-        .col-6
-          +filter-status(filterStatus)
         .col-6
           +search(keyword)
   .card.mb-3 
     .card-header Danh sách 
-      .card-body 
-        form(
-          action=`/${prefixAdmin}/products/change-multi?_method=PATCH`
-          method="POST"
-          form-change-multi
-        ) 
-          .d-flex.align-items-start
-            .form-group
-              select(name="type" class="form-control")
-                option(value="active") Hoạt động
-                option(value="inactive") Dừng hoạt động
-            .form-group.d-none
-              input(
-                type="text"
-                name="ids"
-                value=""
-                class="form-control"
-              )
-            button(type="submit" class="btn btn-primary") Áp dụng
-
+      .card-body
       table(
         class="table table-hover table-sm"
-        checkbox-multi
       )
           thead
             tr
-              td
-                input(type="checkbox" name="checkall")
               th STT
               th Hình ảnh
               th Tiêu đề
@@ -61,8 +34,6 @@ block main
           tbody
             each item, index in products
               tr
-                td
-                  input(type="checkbox" name="id" value=item.id)
                 td #{index + 1}
                 td
                   img(
@@ -91,25 +62,18 @@ block main
                 td
                   button(class="btn btn-warning btn-sm") Sửa
                   button(
-                    class="btn btn-danger btn-sm ml-1"
-                    button-delete 
+                    class="btn btn-primary btn-sm ml-1"
+                    button-recycle 
                     data-id=item.id
-                  ) Xóa 
+                  ) Khôi phục 
   +pagination(pagination)
 
   form(
-    form-change-status 
+    form-recycle-item
     method="POST"
     action=""
-    data-path="/admin/products/change-status"
+    data-path="/admin/products/recycle-bin"
   )
 
-  form(
-    form-delete-item
-    method="POST"
-    action=""
-    data-path="/admin/products/delete-item"
-  )
-
-  script(src="/admin/js/script.js") 
+  script(src="/admin/js/recycle.js")
   

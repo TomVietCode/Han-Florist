@@ -11,4 +11,8 @@ router.patch("/change-multi", controller.changeMulti)
 
 router.delete("/delete-item/:id", controller.deleteItem)
 
+router.get("/recycle-bin", controller.recycleBin)
+
+router.patch("/recycle-bin/recycle-item/:id", controller.recycleItem)
+
 module.exports = router;
