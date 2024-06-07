@@ -1,6 +1,7 @@
 const Product = require("../../models/product.model");
 const filterStatusHelper = require("../../helpers/filter-status.helper");
 const paginationHelper = require("../../helpers/pagination.helper");
+const flash = require("express-flash");
 
 //[GET] /admin/products
 module.exports.index = async (req, res) => {
@@ -63,6 +64,7 @@ module.exports.changeStatus = async (req, res) => {
 
   await Product.updateOne({ _id: id, } , {status: status, });
 
+  req.flash("success", "Cập nhật thành công!")
   res.redirect(`back`);
 };
 
