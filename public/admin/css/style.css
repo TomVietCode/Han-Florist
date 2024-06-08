@@ -54,7 +54,7 @@
   top: 70px;
   right: 15px;
   z-index: 9999;
-  width: 200px;
+  padding-right: 30px;
 }
 
 [close-alert]{
@@ -79,7 +79,7 @@
   }
   to {
     right: 15px;
-    display: block;
+    display: inline-block;
   }
 }
 
