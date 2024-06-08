@@ -96,6 +96,7 @@ module.exports.changeMulti = async (req, res) => {
       break;
   }
 
+  req.flash("success", "Cập nhật trạng thái thành công!")
   res.redirect('back')
 };
 
