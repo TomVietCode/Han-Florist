@@ -76,10 +76,9 @@ module.exports.changeMulti = async (req, res) => {
   
   switch (type) {
     case "active":
-      await Product.updateMany({ '_id': ids }, { 'status': type })
-      break;
     case "inactive":
       await Product.updateMany({ '_id': ids }, { 'status': type })
+      req.flash("success", "Cập nhật trạng thái thành công!")
       break;
     case "change-position":
       for (const item of ids) {
@@ -88,15 +87,16 @@ module.exports.changeMulti = async (req, res) => {
 
         await Product.updateOne( { '_id': id }, { 'position': position } )
       }
+      req.flash("success", "Đổi vị trí thành công!")
       break;
     case "delete-all":
       await Product.updateMany({ '_id': ids }, { 'deleted': true })
+      req.flash("success", "Xóa sản phẩm thành công!")
       break;
     default:
       break;
   }
 
-  req.flash("success", "Cập nhật trạng thái thành công!")
   res.redirect('back')
 };
 
@@ -106,6 +106,7 @@ module.exports.deleteItem = async (req, res) => {
 
   await Product.updateOne({ _id: id }, {deleted: true});
 
+  req.flash("success", "Xóa sản phẩm thành công!")
   res.redirect(`back`);
 };
 
@@ -153,6 +154,6 @@ module.exports.recycleItem = async (req, res) => {
   const id = req.params.id;
 
   await Product.updateOne({ _id: id }, {deleted: false});
-
+  req.flash("success", "Khôi phục thành công!")
   res.redirect(`back`);
 };
