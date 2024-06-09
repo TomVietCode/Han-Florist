@@ -9,7 +9,7 @@ if(formRecycleItem){
       const path = formRecycleItem.getAttribute("data-path")
 
       let action = `${path}/recycle-item/${id}?_method=PATCH`
-      console.log(action)
+
       formRecycleItem.action = action
 
       formRecycleItem.submit()
@@ -17,3 +17,27 @@ if(formRecycleItem){
   })
 }
 // End Recycle Item
+
+// Delete Permanently
+const formDeletePermanently = document.querySelector("[form-delete-permanently]")
+if(formDeletePermanently){
+  const listButtonDelete = document.querySelectorAll("[button-delete]")
+
+  listButtonDelete.forEach(button => {
+    button.addEventListener("click", () => {
+      const check = confirm("Bạn có chắc chắn muốn xóa!?")
+      if(check){
+        const id = button.getAttribute("data-id")
+        const path = formDeletePermanently.getAttribute("data-path")
+
+        let action = `${path}/delete-permanently/${id}?_method=DELETE`
+
+        formDeletePermanently.action = action
+        console.log(formDeletePermanently.action)
+
+        formDeletePermanently.submit()
+      }
+    })
+  })
+}
+// End Delete Permanently

@@ -169,7 +169,6 @@ if(formDeleteItem){
       const path = formDeleteItem.getAttribute("data-path")
 
       let action = `${path}/${id}?_method=DELETE`
-      console.log(action)
       formDeleteItem.action = action
 
       formDeleteItem.submit()

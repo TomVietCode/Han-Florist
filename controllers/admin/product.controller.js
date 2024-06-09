@@ -113,7 +113,7 @@ module.exports.deleteItem = async (req, res) => {
   res.redirect(`back`);
 };
 
-//[GET] /admin/products/recyce-bin
+//[DELETE] /admin/products/recyce-bin
 module.exports.recycleBin = async (req, res) => {
   let find = {
     deleted: true,
@@ -157,16 +157,30 @@ module.exports.recycleItem = async (req, res) => {
   const id = req.params.id;
 
   await Product.updateOne({ _id: id }, {deleted: false});
+
   req.flash("success", "Khôi phục thành công!")
+
   res.redirect(`back`);
 };
 
-//[GET] /admin/products/create
-module.exports.create = async (req, res) => {
-  res.render("admin/pages/products/create.pug")
+// [DELETE] /admin/products/recycle-bin/delete-permanently/:id
+module.exports.deletePermanently = async (req, res) => {
+  const id = req.params.id
+  
+  await Product.deleteOne({ _id: id })
+
+  req.flash("success", `Xóa thành công!`)
+  res.redirect(`back`)
 };
 
-//[POST] /admin/products/create
+// [GET] /admin/products/create
+module.exports.create = async (req, res) => {
+  res.render("admin/pages/products/create.pug", {
+    pageTitle: "Thêm mới sản phẩm"
+  })
+}
+
+// [POST] /admin/products/create
 module.exports.createPost = async (req, res) => {
   req.body.price = parseFloat(req.body.price)
   req.body.discountPercentage = parseFloat(req.body.discountPercentage)
@@ -175,12 +189,14 @@ module.exports.createPost = async (req, res) => {
   if(req.body.position){
     req.body.position = parseInt(req.body.position)
   }else{
-    req.body.position = await Product.countDocuments() + 1
+    const countProduct = await Product.countDocuments()
+    req.body.position = countProduct + 1
   }
 
   const record = new Product(req.body)
   await record.save()
-  
+
   req.flash("success", "Thêm mới sản phẩm thành công!")
   res.redirect(`/${systemConfig.prefixAdmin}/products`)
-};
+}
+

@@ -15,6 +15,8 @@ router.get("/recycle-bin", controller.recycleBin)
 
 router.patch("/recycle-bin/recycle-item/:id", controller.recycleItem)
 
+router.delete("/recycle-bin/delete-permanently/:id", controller.deletePermanently)
+
 router.get("/create", controller.create)
 
 router.post("/create", controller.createPost)

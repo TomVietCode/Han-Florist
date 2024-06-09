@@ -2,8 +2,10 @@ extends ../../layouts/default.pug
 include ../../mixins/filter-status.pug
 include ../../mixins/search.pug
 include ../../mixins/pagination.pug
+include ../../mixins/alert-success.pug
 
 block main
+  +alert-success()
   h1(class="mb-4") #{pageTitle}
 
   .card.mb-3 
@@ -60,7 +62,11 @@ block main
                       class="badge badge-danger"
                     ) Dừng hoạt động 
                 td
-                  button(class="btn btn-warning btn-sm") Sửa
+                  button(
+                    class="btn btn-danger btn-sm"
+                    button-delete
+                    data-id=item.id
+                    ) Xóa vĩnh viễn
                   button(
                     class="btn btn-primary btn-sm ml-1"
                     button-recycle 
@@ -71,6 +77,13 @@ block main
 
   form(
     form-recycle-item
+    method="POST"
+    action=""
+    data-path="/admin/products/recycle-bin"
+  )
+
+  form(
+    form-delete-permanently
     method="POST"
     action=""
     data-path="/admin/products/recycle-bin"
