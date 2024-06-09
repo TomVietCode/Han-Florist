@@ -2,6 +2,7 @@ const Product = require("../../models/product.model");
 const filterStatusHelper = require("../../helpers/filter-status.helper");
 const paginationHelper = require("../../helpers/pagination.helper");
 const flash = require("express-flash");
+const systemConfig = require("../../config/system")
 
 //[GET] /admin/products
 module.exports.index = async (req, res) => {
@@ -158,4 +159,28 @@ module.exports.recycleItem = async (req, res) => {
   await Product.updateOne({ _id: id }, {deleted: false});
   req.flash("success", "Khôi phục thành công!")
   res.redirect(`back`);
+};
+
+//[GET] /admin/products/create
+module.exports.create = async (req, res) => {
+  res.render("admin/pages/products/create.pug")
+};
+
+//[POST] /admin/products/create
+module.exports.createPost = async (req, res) => {
+  req.body.price = parseFloat(req.body.price)
+  req.body.discountPercentage = parseFloat(req.body.discountPercentage)
+  req.body.stock = parseInt(req.body.stock)
+
+  if(req.body.position){
+    req.body.position = parseInt(req.body.position)
+  }else{
+    req.body.position = await Product.countDocuments() + 1
+  }
+
+  const record = new Product(req.body)
+  await record.save()
+  
+  req.flash("success", "Thêm mới sản phẩm thành công!")
+  res.redirect(`/${systemConfig.prefixAdmin}/products`)
 };

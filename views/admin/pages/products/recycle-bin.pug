@@ -66,7 +66,8 @@ block main
                     button-recycle 
                     data-id=item.id
                   ) Khôi phục 
-  +pagination(pagination)
+    +pagination(pagination)
+    
 
   form(
     form-recycle-item
@@ -74,6 +75,8 @@ block main
     action=""
     data-path="/admin/products/recycle-bin"
   )
-
+  
   script(src="/admin/js/recycle.js")
+
+  
   
