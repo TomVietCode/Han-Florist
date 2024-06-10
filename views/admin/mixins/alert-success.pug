@@ -1,9 +1,0 @@
-mixin alert-success()
-  - if (messages.success)
-    div(
-      class="alert alert-success alert-show"
-      show-alert
-      data-time="3000"
-    )
-      | #{messages.success}
-      button(class="btn btn-danger btn-sm" close-alert) x

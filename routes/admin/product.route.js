@@ -2,6 +2,7 @@ const express = require("express")
 const router = express.Router()
 const controller = require("../../controllers/admin/product.controller")
 const multer = require("multer")
+const validate = require("../../validates/product.validate")
 
 const storageUpload = require("../../helpers/storageUpload.helper")
 const upload = multer({ storage: storageUpload() })
@@ -22,6 +23,11 @@ router.delete("/recycle-bin/delete-permanently/:id", controller.deletePermanentl
 
 router.get("/create", controller.create)
 
-router.post("/create", upload.single('thumbnail'), controller.createPost)
+router.post(
+  "/create", 
+  upload.single('thumbnail'), 
+  validate.createPost,
+  controller.createPost
+)
 
 module.exports = router;
