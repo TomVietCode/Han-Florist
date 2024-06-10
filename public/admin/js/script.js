@@ -1,6 +1,5 @@
 //Button Status
 const buttonsStatus = document.querySelectorAll("[button-status]")
-
 if(buttonsStatus.length > 0){
   let url = new URL(window.location.href)
 
@@ -24,7 +23,6 @@ if(buttonsStatus.length > 0){
 
 // Form Search
 const formSearch = document.querySelector("#form-search")
-
 if(formSearch){
   let url = new URL(window.location.href)
   
@@ -44,10 +42,8 @@ if(formSearch){
 }
 // End Form Search
 
-
 // Pagination
 const buttonPagination = document.querySelectorAll("[button-pagination]")
-
 if(buttonPagination.length > 0){
   let url = new URL(window.location.href)
 
@@ -65,7 +61,6 @@ if(buttonPagination.length > 0){
 
 // Button Change Status
 const listButtonChangeStatus = document.querySelectorAll("[button-change-status]")
-
 if(listButtonChangeStatus.length > 0){
   const formChangeStatus = document.querySelector("[form-change-status]")
 
@@ -87,31 +82,33 @@ if(listButtonChangeStatus.length > 0){
 
 // Checkbox Multi
 const checkboxMulti = document.querySelector("[checkbox-multi]")
+if(checkboxMulti){
+  const inputCheckAll = checkboxMulti.querySelector("input[name='checkall']")
+  const listCheckboxId = checkboxMulti.querySelectorAll("input[name='id']")
 
-const inputCheckAll = checkboxMulti.querySelector("[name=checkall]")
-const listCheckboxId = checkboxMulti.querySelectorAll("[name=id]")
-inputCheckAll.addEventListener("click", () => {
-  if(inputCheckAll.checked){
-    listCheckboxId.forEach(input => {
-      input.checked = true
-    })
-  }else{
-    listCheckboxId.forEach(input => {
-      input.checked = false
-    })
-  }
-})
-
-listCheckboxId.forEach(input => {
-  input.addEventListener("click", () => {
-    let countChecked = checkboxMulti.querySelectorAll("[name=id]:checked").length
-    if(countChecked == listCheckboxId.length){
-      inputCheckAll.checked = true
+  inputCheckAll.addEventListener("click", () => {
+    if(inputCheckAll.checked){
+      listCheckboxId.forEach(input => {
+        input.checked = true
+      })
     }else{
-      inputCheckAll.checked = false
+      listCheckboxId.forEach(input => {
+        input.checked = false
+      })
     }
   })
-})
+
+  listCheckboxId.forEach(input => {
+    input.addEventListener("click", () => {
+      let countChecked = checkboxMulti.querySelectorAll("[name=id]:checked").length
+      if(countChecked == listCheckboxId.length){
+        inputCheckAll.checked = true
+      }else{
+        inputCheckAll.checked = false
+      }
+    })
+  })
+}
 // End Checkbox Multi
 
 // Form Change Multi Status
@@ -196,3 +193,19 @@ if(showAlert){
   })
 }
 // End Show Alert
+
+// Image Preview
+const uploadImage = document.querySelector("[upload-image]")
+if(uploadImage){
+  const inputImage = document.querySelector("[upload-image-input]")
+  const previewImage = document.querySelector("[upload-image-preview]")
+
+  inputImage.addEventListener("change", (e) => {
+    const file = e.target.files[0] // == inputImage.files[0]
+    if(file){
+      const url = URL.createObjectURL(file)
+      previewImage.src = url
+    }
+  })
+}
+// End Image Preview

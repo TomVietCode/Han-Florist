@@ -99,3 +99,18 @@
   }
 }
 /* End Show Alert */
+
+/* image-preview */
+.image-preview {
+  width: 150px;
+  height: auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 10px;
+}
+
+.image-preview[src=""] {
+  display: none;
+}
+/* End image-preview */
