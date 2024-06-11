@@ -25,13 +25,19 @@ module.exports.index = async (req, res) => {
 module.exports.detail = async (req, res) => {
   const find = {
     slug: req.params.slug,
-    deleted: false
+    deleted: false,
+    status: "active"
   }
 
-  const product = await Product.findOne(find)
+  try {
+    const product = await Product.findOne(find)
+    
+    res.render("client/pages/products/detail.pug", {
+      pageTitle: `${product.title}`,
+      product: product
+    })
+  } catch (error) {
+    res.redirect("back")
+  }
   
-  res.render("client/pages/products/detail.pug", {
-    pageTitle: `${product.title}`,
-    product: product
-  })
 }
