@@ -17,11 +17,11 @@ const app = express();
 const port = process.env.PORT;
 
 //Cấu hình pug
-app.set("views", "./views");
 app.set("view engine", "pug");
+app.set('views', `${__dirname}/views`);
 
 //Nhúng file tĩnh
-app.use(express.static("public"));
+app.use(express.static(`${__dirname}/public`));
 
 // Method override (Ghi đè phương thức)
 app.use(methodOverride(`_method`));
