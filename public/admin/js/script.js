@@ -209,3 +209,39 @@ if(uploadImage){
   })
 }
 // End Image Preview
+
+// Sort
+const sort = document.querySelector("[sort]")
+if(sort){
+  let url = new URL(window.location.href)
+  const sortSelect = sort.querySelector("[sort-select]")
+  // Lắng nghe thay đổi sắp xếp
+  sortSelect.addEventListener("change", (e) => {
+    const [sortKey, sortValue] = e.target.value.split("-")
+
+    url.searchParams.set("sortKey", sortKey)
+    url.searchParams.set("sortValue", sortValue)
+
+    window.location.href = url
+  })
+
+  const sortKey = url.searchParams.get("sortKey")
+  const sortValue = url.searchParams.get("sortValue")
+  
+  // Thêm selected cho lựa chọn hiện tại
+  if(sortKey && sortValue){
+    const stringSort = `${sortKey}-${sortValue}`
+    const selectedOption = sortSelect.querySelector(`option[value=${stringSort}]`)
+    selectedOption.selected = true
+  }
+
+  // Gắn sự kiện nút Clear
+  const buttonClear = document.querySelector("[sort-clear]")
+  buttonClear.addEventListener("click", () => {
+    url.searchParams.delete("sortKey")
+    url.searchParams.delete("sortValue")
+
+    window.location.href = url
+  })
+}
+// End Sort
