@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const flash = require("express-flash");
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
+const path = require('path')
 
 database.connect();
 
@@ -33,7 +34,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser("ABCDEFGH"));
 app.use(session({ cookie: { maxAge: 60000 } }));
 app.use(flash());
-// End Express Flash
+
+// TinyMce
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 
 // App local variable
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
