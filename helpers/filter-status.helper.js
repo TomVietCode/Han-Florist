@@ -23,6 +23,6 @@ module.exports = (query) => {
   }else{
     filterStatus[0].class = "active"
   }
-
+  
     return filterStatus;
 }
