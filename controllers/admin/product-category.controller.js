@@ -82,3 +82,14 @@ module.exports.changeStatus = async (req, res) => {
 
   res.redirect("back")
 }
+
+// [DELETE] /admin/product-category/delete/:id
+module.exports.deleteItem = async (req, res) => {
+  const id = req.params.id
+  if(id){
+    await ProductCategory.deleteOne({_id: id})
+  }
+
+  req.flash('success', 'Xóa thành công')
+  res.redirect("back")
+}
