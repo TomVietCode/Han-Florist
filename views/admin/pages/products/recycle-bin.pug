@@ -21,11 +21,33 @@ block main
   .card.mb-3 
     .card-header Danh sách 
       .card-body
+      .row 
+        .col-10
+          form(
+            action=`/${prefixAdmin}/products/recycle-bin/delete-multi?_method=DELETE`
+            method="POST"
+            form-change-multi
+          ) 
+            .d-flex.align-items-start
+              .form-group
+                select(name="type" class="form-control")
+                  option(value="delete-all") Xóa tất cả
+              .form-group.d-none
+                input(
+                  type="text"
+                  name="ids"
+                  value=""
+                  class="form-control"
+                )
+              button(type="submit" class="btn btn-primary mx-3") Áp dụng
       table(
         class="table table-hover table-sm"
+        checkbox-multi
       )
           thead
             tr
+              td 
+                input(type="checkbox" name="checkall")
               th STT
               th Hình ảnh
               th Tiêu đề
@@ -36,6 +58,8 @@ block main
           tbody
             each item, index in products
               tr
+                td
+                  input(type="checkbox" name="id" value=item.id)
                 td #{index + 1}
                 td
                   img(

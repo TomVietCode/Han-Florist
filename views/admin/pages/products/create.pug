@@ -12,7 +12,7 @@ block main
     enctype="multipart/form-data"
   )
     div(class="form-group")
-      label(for="title") Tiêu đề
+      label(for="title") Tiêu đề *
       input(
         type="text"
         class="form-control"
@@ -37,6 +37,7 @@ block main
         name="price"
         value="0"
         min="0"
+        step="any"
       )
     div(class="form-group")
       label(for="discount") % Giảm giá
@@ -47,6 +48,7 @@ block main
         name="discountPercentage"
         value="0"
         min="0"
+        step="any"
       )
     div(class="form-group")
       label(for="stock") Số lượng
@@ -63,6 +65,12 @@ block main
       upload-image
     )
       label(for="thumbnail") Ảnh
+      input(
+        type="text"
+        class="form-control mb-2"
+        name="thumbnail"
+        placeholder="Nhập link ảnh..."
+      )
       input(
         type="file"
         class="form-control-file"

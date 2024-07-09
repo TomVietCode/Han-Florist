@@ -185,6 +185,14 @@ module.exports.deletePermanently = async (req, res) => {
   res.redirect(`back`)
 };
 
+module.exports.deleteMulti = async (req, res) => {
+  let ids = req.body.ids
+  ids = ids.split(", ")
+
+  await Product.deleteMany({ '_id': ids })
+  req.flash("success", "Xóa sản phẩm thành công!")
+  res.redirect('back')
+};
 // [GET] /admin/products/create
 module.exports.create = async (req, res) => {
   res.render("admin/pages/products/create.pug", {
@@ -205,6 +213,7 @@ module.exports.createPost = async (req, res) => {
     req.body.position = countProduct + 1
   }
   
+  console.log(req.body)
   const record = new Product(req.body)
   await record.save()
 
