@@ -31,6 +31,10 @@
   left: 150px;
   width: calc(100% - 180px);
 }
+
+#thumbnail{
+  object-fit: contain;
+}
 /* End Body */
 
 /* Sider */
