@@ -49,9 +49,16 @@ module.exports.index = async (req, res) => {
 };
 
 //[GET] /admin/product-category/create
-module.exports.create = (req, res) => {
+module.exports.create = async (req, res) => {
+  const find = {
+    deleted: false
+  }
+  
+  const records = await ProductCategory.find(find)
+
   res.render("admin/pages/product-category/create.pug", {
     pageTitle: "Tạo mới danh mục",
+    records: records,
   });
 };
 
