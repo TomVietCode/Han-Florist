@@ -3,6 +3,7 @@ include ../../mixins/alert.pug
 include ../../mixins/filter-status.pug
 include ../../mixins/search.pug
 include ../../mixins/pagination.pug
+include ../../mixins/tree.pug
 
 block main
   h1(class="mb-4") Danh mục sản phẩm
@@ -15,33 +16,16 @@ block main
           +filter-status(filterStatus)
         .col-6
           +search(keyword)
-  .card-mb-3 
-    .card-header Sắp xếp
-    .card-body
+
+  .card.mb-3 
+    .card-header 
       .row 
-        .col-4 
-          div(sort)
-            select(
-              class="form-control"
-              name="sort"
-              sort-select
-            )
-              option(value="position-desc") Vị trí giảm dần
-              option(value="position-asc") Vị trí tăng dần
-              option(value="title-asc") Tiêu đề A - Z
-              option(value="title-desc") Tiêu đề Z - A
-        .col-4   
-          button(
-            class="btn btn-danger"
-            sort-clear
-          ) Clear
+        .col-8 Danh sách
         .col-4
           a(
             href=`/${prefixAdmin}/product-category/create`
             class="btn btn-outline-success"
           ) + Thêm Mới
-  .card.mb-3 
-    .card-header Danh sách 
     .card-body 
       table(
         class="table table-hover table-sm"
@@ -49,8 +33,6 @@ block main
       )
           thead
             tr
-              td
-                input(type="checkbox" name="checkall")
               th STT
               th Tiêu đề
               th Vị trí
@@ -58,50 +40,7 @@ block main
               th Hành động
 
           tbody
-            each item, index in records 
-              tr
-                td
-                  input(type="checkbox" name="id" value=item.id)
-                td #{index + 1}
-                td #{item.title} 
-                td
-                  input(
-                    name="position"
-                    value=item.position
-                    type="number"
-                    style="width: 60px;"
-                    min="1"
-                  )
-                td
-                  if(item.status == "active")
-                    button(
-                      button-change-status 
-                      data-id=item.id 
-                      data-status="inactive"
-                      class="badge badge-success"
-                    ) Hoạt động 
-                  else 
-                    button(
-                      button-change-status 
-                      data-id=item.id 
-                      data-status="active"
-                      class="badge badge-danger"
-                    ) Dừng hoạt động 
-                td
-                  a(
-                    href=`/${prefixAdmin}/product-category/edit/${item.id}`
-                    class="btn btn-warning btn-sm"
-                  ) Sửa
-                  button(
-                    class="btn btn-danger btn-sm ml-1"
-                    button-delete 
-                    data-id=item.id
-                  ) Xóa 
-                  a(
-                    href=`/${prefixAdmin}/product-category/detail/${item.id}`
-                    class="btn btn-secondary btn-sm ml-1"
-                  ) Chi tiết
-  //- +pagination(pagination)
+            +table-tree(records)
 
   form(
     form-change-status 

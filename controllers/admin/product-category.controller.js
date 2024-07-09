@@ -34,16 +34,15 @@ module.exports.index = async (req, res) => {
     const sortValue = req.query.sortValue
 
     sort[sortKey] = sortValue
-  }else{
-    sort["position"] = "desc"
   }
   // End Sort
 
   const records = await ProductCategory.find(find).sort(sort)
+  const newRecord = createTreeHelper(records)
 
   res.render("admin/pages/product-category/index.pug", {
     pageTitle: "Danh mục sản phẩm",
-    records: records,
+    records: newRecord,
     filterStatus: filterStatus,
     keyword: keyword
   });
