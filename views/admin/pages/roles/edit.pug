@@ -1,14 +1,14 @@
 extends ../../layouts/default.pug
-include ../../mixinx/alert.pug
+include ../../mixins/alert.pug
 
-block main
+block main  
   +alert-success()
   +alert-error()
   
-  h1(class="mb-4") Thêm mới nhóm quyền
+  h1(class="mb-4") Chỉnh sửa nhóm quyền
 
   form(
-    action=`/${prefixAdmin}/roles/create`
+    action=`/${prefixAdmin}/roles/edit/${data.id}?_method=PATCH`
     method="POST"
   )
     div(class="form-group")
@@ -19,6 +19,7 @@ block main
         id="title"
         name="title"
         required
+        value=`${data.title}`
       )
     div(class="form-group")
       label(for="desc") Mô tả
@@ -27,6 +28,7 @@ block main
         class="form-control"
         id="desc"
         name="description"
+        value=`${data.description}`
       )
     div(class="form-group")
       button(
