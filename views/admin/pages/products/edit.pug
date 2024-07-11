@@ -1,5 +1,6 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert.pug
+include ../../mixins/tree.pug
 
 block main
   +alert-error()
@@ -20,6 +21,16 @@ block main
         name="title"
         value=`${product.title}`
       )
+    div(class="form-group")
+      label(for="category-id") Danh mục 
+      select(
+        name="categoryId"
+        id="category-id"
+        class="form-control"
+      )
+        option(value="") -- Chọn danh mục -- 
+        if(category)
+          +select-tree(category, 1, current_id = product.categoryId)
     div(class="form-group")
       label(for="desc") Mô tả
       textarea(
@@ -71,6 +82,7 @@ block main
         class="form-control mb-2"
         name="thumbnail"
         placeholder="Nhập link ảnh..."
+        value=`${product.thumbnail}`
       )
       input(
         type="file"

@@ -197,7 +197,7 @@ module.exports.deleteMulti = async (req, res) => {
 }
 // [GET] /admin/products/create
 module.exports.create = async (req, res) => {
-  const category = await ProductCategory.find({ deleted: false });
+  const category = await ProductCategory.find({ deleted: false })
   const newCategory = createTreeHelper(category)
 
   res.render("admin/pages/products/create.pug", {
@@ -235,9 +235,13 @@ module.exports.edit = async (req, res) => {
     deleted: false,
   })
 
+  const category = await ProductCategory.find({ deleted: false })
+  const newCategory = createTreeHelper(category)
+
   res.render("admin/pages/products/edit.pug", {
     pageTitle: "Chỉnh sửa sản phẩm",
     product: product,
+    category: newCategory,
   })
 }
 
@@ -258,7 +262,6 @@ module.exports.editPatch = async (req, res) => {
       },
       req.body
     )
-
     req.flash("success", "Cập nhật thành công")
   } catch (error) {
     req.flash("error", "Úi! Có lỗi rồi!")
