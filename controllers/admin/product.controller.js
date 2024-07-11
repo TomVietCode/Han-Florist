@@ -187,12 +187,23 @@ module.exports.deletePermanently = async (req, res) => {
   res.redirect(`back`)
 }
 
-module.exports.deleteMulti = async (req, res) => {
+module.exports.changeMultiBin = async (req, res) => {
+  const type = req.body.type
   let ids = req.body.ids
   ids = ids.split(", ")
 
-  await Product.deleteMany({ _id: ids })
-  req.flash("success", "Xóa sản phẩm thành công!")
+  switch (type) {
+    case "delete-all":
+      await Product.deleteMany({ _id: ids })
+      req.flash("success", "Xóa sản phẩm thành công!")
+      break;
+    case "restore-all":
+      await Product.updateMany({_id: ids}, {deleted: false})
+      req.flash("success", "Khôi phục sản phẩm thành công!")
+    default:
+      break;
+  }
+  
   res.redirect("back")
 }
 // [GET] /admin/products/create

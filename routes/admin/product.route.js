@@ -22,7 +22,7 @@ router.patch("/recycle-bin/recycle-item/:id", controller.recycleItem)
 
 router.delete("/recycle-bin/delete-permanently/:id", controller.deletePermanently)
 
-router.delete("/recycle-bin/delete-multi", controller.deleteMulti)
+router.delete("/recycle-bin/delete-multi", controller.changeMultiBin)
 
 router.get("/create", controller.create)
 
