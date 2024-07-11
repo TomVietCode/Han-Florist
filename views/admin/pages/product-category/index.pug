@@ -6,8 +6,11 @@ include ../../mixins/pagination.pug
 include ../../mixins/tree.pug
 
 block main
-  h1(class="mb-4") Danh mục sản phẩm
   +alert-success()
+  +alert-error()
+
+  h1(class="mb-4") Danh mục sản phẩm
+  
   .card.mb-3 
     .card-header Bộ lọc và Tìm kiếm
     .card-body
@@ -29,7 +32,6 @@ block main
     .card-body 
       table(
         class="table table-hover table-sm"
-        checkbox-multi
       )
           thead
             tr

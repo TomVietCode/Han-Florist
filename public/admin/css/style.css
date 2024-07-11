@@ -32,7 +32,7 @@
   width: calc(100% - 180px);
 }
 
-#thumbnail{
+.thumbnail{
   object-fit: contain;
 }
 /* End Body */

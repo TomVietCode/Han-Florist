@@ -1,6 +1,6 @@
 const dashboardRoutes = require("./dashboard.route")
 const productRoutes = require("./product.route")
-const productCategoryRoutes= require("./product-category.route")
+const productCategoryRoutes = require("./product-category.route")
 const systemConfig = require("../../config/system")
 
 module.exports = (app) => {
