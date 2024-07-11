@@ -42,7 +42,11 @@ block main
               th Hành động
 
           tbody
-            +table-tree(records)
+            if(records)
+              +table-tree(records)
+            else 
+              tr
+                td(colspan="4" class="text-center") Chưa có danh mục nào được tạo.
 
   form(
     form-change-status 
