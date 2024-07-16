@@ -61,3 +61,13 @@ module.exports.editPatch = async (req, res) => {
   }
   res.redirect("back")
 }
+
+// [DELETE] /admin/roles/delete/:id
+module.exports.delete = async (req, res) => {
+  const id = req.params.id
+
+  await Role.deleteOne({_id: id})
+
+  req.flash("success", "Xóa thành công!")
+  res.redirect("back")
+}
