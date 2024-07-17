@@ -54,7 +54,7 @@ module.exports.editPatch = async (req, res) => {
   const id = req.params.id
 
   try {
-    await Role.updateOne({_id: id}, req.body)
+    await Role.updateOne({ _id: id }, req.body)
     req.flash("success", "Cập nhật thành công!")
   } catch (error) {
     req.flas("error", "Cập nhật thất bại")
@@ -66,8 +66,37 @@ module.exports.editPatch = async (req, res) => {
 module.exports.delete = async (req, res) => {
   const id = req.params.id
 
-  await Role.deleteOne({_id: id})
+  await Role.deleteOne({ _id: id })
 
   req.flash("success", "Xóa thành công!")
+  res.redirect("back")
+}
+
+// [GET] /admin/roles/permissions
+module.exports.permissions = async (req, res) => {
+  const records = await Role.find({ deleted: false })
+
+  res.render("admin/pages/roles/permissions", {
+    pageTitle: "Phân quyền",
+    records: records,
+  })
+}
+
+// [PATCH] /admin/roles/permissions
+module.exports.permissionsPatch = async (req, res) => {
+  const datas = JSON.parse(req.body.roles)
+
+  for (const data of datas) {
+    await Role.updateOne(
+      {
+        _id: data.id,
+        deleted: false,
+      },
+      { permissions: data.permissions }
+    )
+  }
+
+  req.flash("success", "Cập nhật quyền thành công!")
+
   res.redirect("back")
 }
