@@ -35,3 +35,31 @@ module.exports.createPost = async (req, res, next) => {
   }
   next()
 }
+
+module.exports.editPatch = async (req, res, next) => {
+  if(!req.body.fullName){
+    req.flash("error", "Vui lòng điền đầy đủ họ tên!")
+    res.redirect("back")
+    return
+  }
+
+  if(!req.body.email){
+    req.flash("error", "Vui lòng điền email!")
+    res.redirect("back")
+    return
+  }
+
+  const emailExist = await Account.findOne({
+    _id: {$ne: req.params.id},
+    email: req.body.email,
+    deleted: false
+  })
+
+  if(emailExist){
+    req.flash("error", "Email đã tồn tại!")
+    res.redirect("back")
+    return
+  }
+
+  next()
+}

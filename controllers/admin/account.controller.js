@@ -48,9 +48,9 @@ module.exports.changeStatus = async (req, res) => {
   try {
     const id = req.params.id
     const status = req.params.status
-  
-    await Account.updateOne({_id: id}, {status: status})
-  
+
+    await Account.updateOne({ _id: id }, { status: status })
+
     req.flash("success", "Cập nhật thành công!")
   } catch (error) {
     req.flash("error", "Cập nhật thất bại!")
@@ -70,5 +70,43 @@ module.exports.deleteItem = async (req, res) => {
   } catch (error) {
     req.flash("error", "Xóa tài khoản thất bại!")
   }
+  res.redirect("back")
+}
+
+// [GET] /admin/accounts/edit/:id
+module.exports.edit = async (req, res) => {
+  try {
+    const id = req.params.id
+    const data = await Account.findOne({ _id: id, deleted: false })
+    const roles = await Role.find({ deleted: false })
+
+    res.render("admin/pages/accounts/edit", {
+      pageTitle: "Cập nhật tài khoản",
+      data: data,
+      roles: roles
+    })
+  } catch (error) {
+    req.flash("error", "Không tìm thấy tài khoản!")
+    res.redirect(`/${systemConfig.prefixAdmin}/accounts`)
+  }
+}
+
+// [PATCH] /admin/accounts/edit/:id
+module.exports.editPatch = async (req, res) => {
+  try {
+    const id = req.params.id
+
+    if(req.body.password){
+      req.body.password = md5(req.body.password)
+    }else{
+      delete req.body.password
+    }
+
+    await Account.updateOne({ _id: id }, req.body)
+    req.flash("success", "Cập nhật tài khoản thành công!")
+  } catch (error) {
+    req.flash("error", "Cập nhật tài khoản thất bại!")
+  }
+  
   res.redirect("back")
 }

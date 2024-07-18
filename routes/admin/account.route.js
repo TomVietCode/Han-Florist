@@ -22,4 +22,15 @@ router.post(
 router.patch("/change-status/:status/:id", controller.changeStatus)
 
 router.delete("/delete-item/:id", controller.deleteItem)
+
+router.get("/edit/:id", controller.edit)
+
+router.patch(
+  "/edit/:id",
+  upload.single("avatar"),
+  uploadCloud.uploadSingle,
+  validate.editPatch,
+  controller.editPatch
+)
+
 module.exports = router
