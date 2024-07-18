@@ -19,4 +19,7 @@ router.post(
   controller.createPost
 )
 
+router.patch("/change-status/:status/:id", controller.changeStatus)
+
+router.delete("/delete-item/:id", controller.deleteItem)
 module.exports = router
