@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router()
-const validate = require("../../validates/product.validate")
+const validate = require("../../validates/admin/product.validate")
 const controller = require("../../controllers/admin/product-category.controller")
 
 router.get("/", controller.index)
