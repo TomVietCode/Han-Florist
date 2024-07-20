@@ -96,6 +96,8 @@ block main
                 th Giá
                 th Vị trí
                 th Trạng thái
+                th Tạo bởi
+                th Cập nhật
                 th Hành động
 
             tbody
@@ -148,6 +150,14 @@ block main
                         span(
                           class="badge badge-danger"
                         ) Hoạt động 
+                  td 
+                    div #{item.creatorName}
+                    if(item.createdAt)
+                      div #{moment(item.createdAt).format("DD/MM/YYYY HH:mm:ss")}
+                  td 
+                    div #{item.updaterName || item.creatorName}
+                    div #{moment(item.updatedAt).format("DD/MM/YYYY HH:mm:ss")}
+                  
                   td
                     if(userRole.permissions.includes("products_edit"))
                       a(

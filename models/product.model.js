@@ -17,10 +17,13 @@ const productSchema = new mongoose.Schema({
     slug: "title",
     unique: true
   },
+  createdBy: String,
+  updatedBy: String,
   deleted: {
     type: Boolean,
     default: false
-  }
+  },
+  deletedBy: String,
 },{ timestamps: true })
 
 const Product = mongoose.model("Product", productSchema, "products")

@@ -56,6 +56,7 @@ block main
                 th Tiêu đề
                 th Giá
                 th Trạng thái
+                th Xóa bởi
                 th Hành động
 
             tbody
@@ -88,6 +89,9 @@ block main
                         data-status="active"
                         class="badge badge-danger"
                       ) Dừng hoạt động 
+                  td 
+                    div #{item.deleterName}
+                    div #{moment(item.updatedAt).format("DD/MM/YY HH:mm:ss")}
                   td
                     button(
                       class="btn btn-danger btn-sm"

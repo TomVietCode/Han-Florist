@@ -1,5 +1,6 @@
 const Product = require("../../models/product.model")
 const ProductCategory = require("../../models/product-category.model")
+const Account = require("../../models/account.model")
 const filterStatusHelper = require("../../helpers/filter-status.helper")
 const paginationHelper = require("../../helpers/pagination.helper")
 const createTreeHelper = require("../../helpers/create-tree.helper")
@@ -61,6 +62,27 @@ module.exports.index = async (req, res) => {
     .skip(objectPagination.skip)
     .sort(sort)
 
+  for (const item of products) {
+    if(item.createdBy){
+      const creator = await Account.findOne({
+        _id: item.createdBy
+      })
+
+      item.creatorName = creator.fullName
+    }else{
+      item.creatorName = ""
+    }
+
+    if(item.updatedBy){
+      const updater = await Account.findOne({
+        _id: item.updatedBy
+      })
+      item.updaterName = updater.fullName
+    }else{
+      item.updaterName = ""
+    }
+  }
+
   // Render to /view/
   res.render("admin/pages/products/index.pug", {
     pageTitle: "Danh sách sản phẩm",
@@ -76,8 +98,9 @@ module.exports.index = async (req, res) => {
 module.exports.changeStatus = async (req, res) => {
   const status = req.params.status
   const id = req.params.id
-
-  await Product.updateOne({ _id: id }, { status: status })
+  const userId = res.locals.user.id
+  
+  await Product.updateOne({ _id: id }, { status: status, updatedBy: userId })
 
   const infoProduct = await Product.findOne({ _id: id })
   req.flash("success", `Cập nhật sản phẩm ${infoProduct.title} thành công!`)
@@ -90,11 +113,12 @@ module.exports.changeMulti = async (req, res) => {
   const type = req.body.type
   let ids = req.body.ids
   ids = ids.split(", ")
+  const userId = res.locals.user.id
 
   switch (type) {
     case "active":
     case "inactive":
-      await Product.updateMany({ _id: ids }, { status: type })
+      await Product.updateMany({ _id: ids }, { status: type, updatedBy: userId })
       req.flash("success", "Cập nhật trạng thái thành công!")
       break
     case "change-position":
@@ -102,12 +126,12 @@ module.exports.changeMulti = async (req, res) => {
         let [id, position] = item.split("-")
         position = parseInt(position)
 
-        await Product.updateOne({ _id: id }, { position: position })
+        await Product.updateOne({ _id: id }, { position: position, updatedBy: userId })
       }
       req.flash("success", "Đổi vị trí thành công!")
       break
     case "delete-all":
-      await Product.updateMany({ _id: ids }, { deleted: true })
+      await Product.updateMany({ _id: ids }, { deleted: true, deletedBy: userId })
       req.flash("success", "Xóa sản phẩm thành công!")
       break
     default:
@@ -120,14 +144,15 @@ module.exports.changeMulti = async (req, res) => {
 // [DELETE] /admin/products/delete-item/:id
 module.exports.deleteItem = async (req, res) => {
   const id = req.params.id
+  const userId = res.locals.user.id
 
-  await Product.updateOne({ _id: id }, { deleted: true })
+  await Product.updateOne({ _id: id }, { deleted: true, deletedBy: userId })
 
   req.flash("success", "Xóa sản phẩm thành công!")
   res.redirect(`back`)
 }
 
-//[DELETE] /admin/products/recyce-bin
+//[GET] /admin/products/recyce-bin
 module.exports.recycleBin = async (req, res) => {
   let find = {
     deleted: true,
@@ -157,6 +182,16 @@ module.exports.recycleBin = async (req, res) => {
     .limit(objectPagination.limitItems)
     .skip(objectPagination.skip)
 
+  for (const item of products) {
+    if(item.deletedBy){
+      const deleter = await Account.findOne({ _id: item.deletedBy })
+
+      item.deleterName = deleter.fullName
+    }else{
+      item.deleterName = ""
+    }
+
+  }
   // Render to /view/
   res.render("admin/pages/products/recycle-bin.pug", {
     pageTitle: "Thùng rác",
@@ -222,6 +257,7 @@ module.exports.createPost = async (req, res) => {
   req.body.price = parseFloat(req.body.price)
   req.body.discountPercentage = parseFloat(req.body.discountPercentage)
   req.body.stock = parseInt(req.body.stock)
+  req.body.createdBy = res.locals.user.id
 
   if (req.body.position) {
     req.body.position = parseInt(req.body.position)
@@ -264,7 +300,7 @@ module.exports.editPatch = async (req, res) => {
   req.body.discountPercentage = parseFloat(req.body.discountPercentage)
   req.body.stock = parseInt(req.body.stock)
   req.body.position = parseInt(req.body.position)
-
+  req.body.updatedBy = res.locals.user.id
   try {
     await Product.updateOne(
       {
