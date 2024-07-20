@@ -4,59 +4,64 @@ include ../../mixins/filter-status.pug
 include ../../mixins/search.pug
 include ../../mixins/pagination.pug
 include ../../mixins/tree.pug
+include ../../mixins/access.pug
 
 block main
   +alert-success()
   +alert-error()
+  if(userRole.permissions.includes("products-category_view"))
+    h1(class="mb-4") Danh mục sản phẩm
+    
+    .card.mb-3 
+      .card-header Bộ lọc và Tìm kiếm
+      .card-body
+        .row
+          .col-6
+            +filter-status(filterStatus)
+          .col-6
+            +search(keyword)
 
-  h1(class="mb-4") Danh mục sản phẩm
-  
-  .card.mb-3 
-    .card-header Bộ lọc và Tìm kiếm
-    .card-body
-      .row
-        .col-6
-          +filter-status(filterStatus)
-        .col-6
-          +search(keyword)
-
-  .card.mb-3 
-    .card-header 
-      .row 
-        .col-8 Danh sách
-        .col-4
-          a(
-            href=`/${prefixAdmin}/product-category/create`
-            class="btn btn-outline-success"
-          ) + Thêm Mới
-    .card-body 
-      table(
-        class="table table-hover table-sm"
-      )
-          thead
-            tr
-              th STT
-              th Tiêu đề
-              th Vị trí
-              th Trạng thái
-              th Hành động
-
-          tbody
-            if(records)
-              +table-tree(records)
-            else 
+    .card.mb-3 
+      .card-header 
+        .row 
+          .col-8 Danh sách
+          .col-4
+            if(userRole.permissions.includes("products-category_create"))
+              a(
+                href=`/${prefixAdmin}/product-category/create`
+                class="btn btn-outline-success"
+              ) + Thêm Mới
+      .card-body 
+        table(
+          class="table table-hover table-sm"
+        )
+            thead
               tr
-                td(colspan="4" class="text-center") Chưa có danh mục nào được tạo.
+                th STT
+                th Tiêu đề
+                th Vị trí
+                th Trạng thái
+                if(userRole.permissions.includes("products-category_edit") || userRole.permissions.includes("products-category_delete"))
+                  th Hành động
 
-  form(
-    form-change-status 
-    method="POST"
-    action=""
-    data-path=`/${prefixAdmin}/product-category/change-status`
-  )
-  form(
-    form-delete-item 
-    method="POST"
-    action=""
-    data-path=`/${prefixAdmin}/product-category/delete`
-  )
+            tbody
+              if(records)
+                +table-tree(records)
+              else 
+                tr
+                  td(colspan="4" class="text-center") Chưa có danh mục nào được tạo.
+
+    form(
+      form-change-status 
+      method="POST"
+      action=""
+      data-path=`/${prefixAdmin}/product-category/change-status`
+    )
+    form(
+      form-delete-item 
+      method="POST"
+      action=""
+      data-path=`/${prefixAdmin}/product-category/delete`
+    )
+  else 
+    +accessDenied()

@@ -25,28 +25,40 @@ mixin table-tree(items, level = 1)
         )
       td
         if(item.status == "active")
-          button(
-            button-change-status 
-            data-id=item.id 
-            data-status="inactive"
-            class="badge badge-success"
-          ) Hoạt động 
+          if(userRole.permissions.includes("products-category_edit"))
+            button(
+              button-change-status 
+              data-id=item.id 
+              data-status="inactive"
+              class="badge badge-success"
+            ) Hoạt động 
+          else  
+            span(
+              class="badge badge-success"
+            ) Hoạt động 
         else 
-          button(
-            button-change-status 
-            data-id=item.id 
-            data-status="active"
-            class="badge badge-danger"
-          ) Dừng hoạt động 
+          if(userRole.permissions.includes("products-category_edit"))
+            button(
+              button-change-status 
+              data-id=item.id 
+              data-status="active"
+              class="badge badge-danger"
+            ) Dừng hoạt động 
+          else  
+            span(
+              class="badge badge-danger"
+            ) Hoạt động 
       td
-        a(
-          href=`/${prefixAdmin}/product-category/edit/${item.id}`
-          class="btn btn-warning btn-sm"
-        ) Sửa
-        button(
-          class="btn btn-danger btn-sm ml-1"
-          button-delete 
-          data-id=item.id
-        ) Xóa 
+        if(userRole.permissions.includes("products-category_edit"))
+          a(
+            href=`/${prefixAdmin}/product-category/edit/${item.id}`
+            class="btn btn-warning btn-sm"
+          ) Sửa
+        if(userRole.permissions.includes("products-category_delete"))
+          button(
+            class="btn btn-danger btn-sm ml-1"
+            button-delete 
+            data-id=item.id
+          ) Xóa 
     if item.children && item.children.length > 0
       +table-tree(item.children, level + 1)
