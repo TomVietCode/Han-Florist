@@ -6,7 +6,7 @@ const accountRoutes = require("./account.route")
 const myAccountRoutes = require("./my-account.route")
 const authRoutes = require("./auth.route")
 const systemConfig = require("../../config/system")
-const authMiddleware = require("../../middlewares/auth.middlewares")
+const authMiddleware = require("../../middlewares/admin/auth.middlewares")
 
 module.exports = (app) => {
   const PATH_ADMIN = `/${systemConfig.prefixAdmin}`
