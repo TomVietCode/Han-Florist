@@ -1,4 +1,5 @@
 const ProductCategory = require("../../models/product-category.model")
+const Account = require("../../models/account.model")
 const systemConfig = require("../../config/system")
 const filterStatusHelper = require("../../helpers/filter-status.helper")
 const createTreeHelper = require("../../helpers/create-tree.helper")
@@ -38,6 +39,22 @@ module.exports.index = async (req, res) => {
   // End Sort
 
   const records = await ProductCategory.find(find).sort(sort)
+
+  for (const item of records) {
+    if(item.createdBy){
+      const creator = await Account.findOne({
+        _id: item.createdBy
+      })
+      item.creatorName = creator.fullName || ""
+    }
+
+    if(item.updatedBy){
+      const updater = await Account.findOne({ _id: item.updatedBy })
+
+      item.updaterName = updater.fullName || ""
+    }
+  }
+  
   const newRecord = createTreeHelper(records)
 
   res.render("admin/pages/product-category/index.pug", {
@@ -74,6 +91,8 @@ module.exports.createPost = async (req, res) => {
       req.body.position = count + 1
     }
 
+    req.body.createdBy = res.locals.user.id
+
     const record = new ProductCategory(req.body)
     await record.save()
     req.flash("success", "Tạo mới danh mục thành công!")
@@ -88,7 +107,7 @@ module.exports.changeStatus = async (req, res) => {
   const id = req.params.id
   const status = req.params.status
 
-  await ProductCategory.updateOne({ _id: id }, { status: status })
+  await ProductCategory.updateOne({ _id: id }, { status: status, updatedBy: res.locals.user.id})
 
   const categoryInfor = await ProductCategory.findOne({ _id: id })
   req.flash("success", `Cập nhật danh mục ${categoryInfor.title} thành công`)
@@ -135,6 +154,8 @@ module.exports.editPatch = async (req, res) => {
   const id = req.params.id
 
   req.body.position = parseInt(req.body.position)
+  req.body.updatedBy = req.locals.user.id
+
   try {
     console.log(req.body)
     await ProductCategory.updateOne({ _id: id, deleted: false }, req.body)

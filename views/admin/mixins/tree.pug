@@ -49,6 +49,13 @@ mixin table-tree(items, level = 1)
               class="badge badge-danger"
             ) Hoạt động 
       td
+        div #{item.creatorName}
+        div #{moment(item.createdAt).format("DD/MM/YY HH:mm:ss")}
+      td
+        div #{item.updaterName}
+        div #{moment(item.updatedAt).format("DD/MM/YY HH:mm:ss")}
+
+      td
         if(userRole.permissions.includes("products-category_edit"))
           a(
             href=`/${prefixAdmin}/product-category/edit/${item.id}`

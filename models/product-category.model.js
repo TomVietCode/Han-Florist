@@ -16,11 +16,12 @@ const productCategorySchema = new mongoose.Schema({
     slug: "title",
     unique: true
   },
+  createdBy: String,
+  updatedBy: String,
   deleted: {
     type: Boolean,
     default: false
   },
-  deletedAt: Date
 }, { timestamps: true})
 
 const ProductCategory = mongoose.model("ProductCategory", productCategorySchema, "product-category")
