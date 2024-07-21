@@ -115,3 +115,53 @@
   display: none;
 }
 /* End image-preview */
+
+/* My account */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+.profile-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+}
+
+.avatar {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  margin-bottom: 40px;
+}
+
+h2 {
+  margin-bottom: 30px;
+}
+
+p {
+  margin-bottom: 20px;
+}
+
+.badge {
+  font-size: 14px;
+  padding: 5px 10px;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #004085;
+}
+
+.mt-3 {
+  margin-top: 30px;
+}
+
+/* End My Account */
