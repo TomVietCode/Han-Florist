@@ -33,6 +33,28 @@ block main
           option(value="") -- Chọn danh mục -- 
           if(category)
             +select-tree(category, 1, current_id = product.categoryId)
+
+      div(class="form-group form-check form-check-inline")
+        input(
+          type="radio"
+          class="form-check-input"
+          id="feature0"
+          name="feature"
+          value="0"
+          checked = `${product.feature}` == "0" ? true : false        
+        )
+        label(for="feature0" class="form-check-label") Sản phẩm thường
+      div(class="form-group form-check form-check-inline")
+        input(
+          type="radio"
+          class="form-check-input"
+          id="feature1"
+          name="feature"
+          value="1"
+          checked = `${product.feature}` == "1" ? true : false    
+        )
+        label(for="feature1" class="form-check-label") Sản phẩm nổi bật
+
       div(class="form-group")
         label(for="desc") Mô tả
         textarea(

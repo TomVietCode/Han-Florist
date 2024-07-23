@@ -5,6 +5,10 @@ mongoose.plugin(slug)
 const productSchema = new mongoose.Schema({
   title: String,
   categoryId: String,
+  feature: {
+    type: String,
+    default: "0"
+  },
   description: String,
   price: Number,
   discountPercentage: Number,
