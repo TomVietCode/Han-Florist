@@ -5,7 +5,7 @@ mongoose.plugin(slug)
 const productSchema = new mongoose.Schema({
   title: String,
   categoryId: String,
-  feature: {
+  featured: {
     type: String,
     default: "0"
   },

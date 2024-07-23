@@ -12,6 +12,5 @@ module.exports.layoutCategory = async (req, res, next) => {
 
   res.locals.layoutCategoryTree = layoutCategoryTree
 
-  console.log(layoutCategoryTree)
   next()
 }
