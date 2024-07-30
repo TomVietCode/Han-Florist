@@ -11,7 +11,7 @@ const cartSchema = mongoose.Schema(
     createdAt: {
       type: Date,
       default: Date.now,
-      expires: 1296000000, 
+      expires: 1296000, 
     },
   },
 )

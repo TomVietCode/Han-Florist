@@ -11,6 +11,9 @@ module.exports.cart = async (req, res, next) => {
       { 
         expires: new Date(Date.now() + 1296000000)
       });
+  }else{
+    const cart = await Cart.findOne({ _id: req.cookies.cartId })
+    res.locals.totalProducts = cart.products.reduce((total, product) => total + product.quantity, 0) || 0
   }
   next();
 }
