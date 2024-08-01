@@ -16,3 +16,15 @@ if(showAlert){
   })
 }
 // End Show Alert
+
+// Update Quantity in Cart
+const listInputQuantity = document.querySelectorAll("input[name='quantity']")
+if(listInputQuantity){
+  listInputQuantity.forEach(input => {
+    const itemId = input.getAttribute("item-id")
+    input.addEventListener("change", () => {
+      window.location.href = `/cart/update/${itemId}/${input.value}`
+    })
+  })
+}
+// End Update Quantity in Cart

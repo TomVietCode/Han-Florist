@@ -5,6 +5,10 @@ body{
   background-color: #F5F5F5;
 }
 
+.text-right{
+  text-align: right !important;
+}
+
 /* Header */
 .header {
   border-bottom: 1px solid #ddd;
