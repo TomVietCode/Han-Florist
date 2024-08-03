@@ -7,6 +7,9 @@ html
   body
     include ../partials/header.pug
     include ../mixins/alert.pug
+    +alert-success()
+    +alert-error()
+
     block main 
 
     include ../partials/footer.pug
