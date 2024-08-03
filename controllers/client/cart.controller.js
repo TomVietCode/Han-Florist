@@ -12,7 +12,7 @@ module.exports.index = async (req, res) => {
   for (const product of cart.products) {
     const productInfo = await Product.findOne({
       _id: product.product_id,
-    }).select("thumbnail title price discountPercentage")
+    }).select("thumbnail title price discountPercentage slug")
 
     productInfo.discountedPrice = (
       (1 - productInfo.discountPercentage / 100) *

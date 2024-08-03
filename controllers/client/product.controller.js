@@ -32,7 +32,7 @@ module.exports.detail = async (req, res) => {
 
   try {
     const product = await Product.findOne(find)
-    product.priceNew = (product.price - (100 - product.discountPercentage)/100).toFixed(0)
+    product.priceNew = ((1 - product.discountPercentage/100) * product.price).toFixed(0)
     res.render("client/pages/products/detail.pug", {
       pageTitle: `${product.title}`,
       product: product,

@@ -12,8 +12,8 @@ module.exports.index = async (req, res) => {
 
   for (let product of productsFeature) {
     product.priceNew = (
-      product.price -
-      (100 * product.discountPercentage) / 100
+      product.price *
+      (100 - product.discountPercentage) / 100
     ).toFixed(0)
   }
 

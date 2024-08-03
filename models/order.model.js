@@ -3,15 +3,15 @@ const mongoose = require("mongoose")
 const orderSchema = mongoose.Schema(
   {
     cartId: String,
-    userInfo: [
+    userInfo: {
+      fullName: String,
+      phone: String,
+      address: String,
+    },
+
+    orderedProducts: [
       {
-        fullName: String,
-        phone: String,
-        address: String,
-      },
-    ],
-    products: [
-      {
+        productId: String,
         title: String,
         price: Number,
         discountPercentage: Number,
@@ -24,7 +24,6 @@ const orderSchema = mongoose.Schema(
   }
 )
 
-const Order = mongoose.model(orderSchema, "orders")
+const Order = mongoose.model("Order", orderSchema, "orders")
 
 module.exports = Order
-
