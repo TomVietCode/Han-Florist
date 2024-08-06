@@ -28,3 +28,17 @@ if(listInputQuantity){
   })
 }
 // End Update Quantity in Cart
+
+// Confirm Password
+const password = document.querySelector("#password")
+const confirmPassword = document.querySelector("#confirmPassword")
+const alertConfirm = document.querySelector(".alert-confirm")
+
+confirmPassword.addEventListener("keyup", () => {
+  if(confirmPassword.value == password.value){
+    alertConfirm.classList.add("d-none")
+  }else{
+    alertConfirm.classList.remove("d-none")
+  }
+})
+// End Confirm Password
