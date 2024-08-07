@@ -9,6 +9,9 @@ module.exports.sendEmail = (email, subject, html) => {
     }
   });
   
+  console.log(process.env.MAIL_EMAIL)
+  console.log(process.env.MAIL_PASSWORD)
+  
   var mailOptions = {
     from: process.env.MAIL_EMAIL,
     to: email,

@@ -38,6 +38,7 @@ block main
             each item in records
               td(class="text-center")
                 input(type="text" value=item.id)
+                
           //- Danh mục sản phẩm
           tr
             td(colspan="4" class="bg-secondary text-white")
@@ -142,6 +143,22 @@ block main
             each item, index in records
               td(class="text-center")
                 input(type="checkbox" class="checkbox" data-column=index)
+
+          //- Cài đặt chung
+          tr
+            td(colspan="4" class="bg-secondary text-white")
+              b Cài đặt chung
+          tr(data-name="settings_view")
+            td Xem
+            each item, index in records
+              td(class="text-center")
+                input(type="checkbox" class="checkbox" data-column=index)
+          tr(data-name="settings_edit")
+            td Chỉnh sửa
+            each item, index in records
+              td(class="text-center")
+                input(type="checkbox" class="checkbox" data-column=index)
+          
       form(
         form-change-permissions
         method="POST"
