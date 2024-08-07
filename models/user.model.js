@@ -7,6 +7,7 @@ const userSchema = mongoose.Schema({
   tokenUser: String,
   phone: String,
   avatar: String,
+  address: String,
 },
 {
   timestamps: true,

@@ -168,3 +168,10 @@ module.exports.resetPasswordPost = async (req, res) => {
   }
   res.redirect("/")
 }
+
+// [GET] /user/profile
+module.exports.profile = (req, res) => {
+  res.render("client/pages/user/profile", {
+    pageTitle: "Thông tin người dùng"
+  })
+} 

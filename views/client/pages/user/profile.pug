@@ -1,0 +1,19 @@
+extends ../../layouts/default.pug
+
+block main
+  section.user-info
+    h2 Thông tin tài khoản
+    .avatar
+      img(src=user.avatar, alt="User Avatar")
+    ul
+      li
+        strong Full Name:
+        span #{user.fullName}
+      li
+        strong Email:
+        span #{user.email}
+      li
+        strong Phone Number:
+        span #{user.phone}
+
+    a(href="/edit") Edit User Information

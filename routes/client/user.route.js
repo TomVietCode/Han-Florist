@@ -25,4 +25,7 @@ router.post("/otp-password", controller.otpPasswordPost)
 router.get("/reset-password", controller.resetPassword)
 
 router.post("/reset-password", controller.resetPasswordPost)
+
+router.get("/profile", controller.profile)
+
 module.exports = router
