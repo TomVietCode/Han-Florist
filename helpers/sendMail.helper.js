@@ -4,13 +4,13 @@ module.exports.sendEmail = (email, subject, html) => {
   var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: process.env.SEND_MAIL_EMAIL,
-      pass: process.env.SEND_MAIL_PASSWORD
+      user: process.env.MAIL_EMAIL,
+      pass: process.env.MAIL_PASSWORD
     }
   });
   
   var mailOptions = {
-    from: process.env.SEND_MAIL_EMAIL,
+    from: process.env.MAIL_EMAIL,
     to: email,
     subject: subject,
     html: html
