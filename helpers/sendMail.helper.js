@@ -5,7 +5,7 @@ module.exports.sendEmail = (email, subject, html) => {
     service: 'gmail',
     auth: {
       user: process.env.MAIL_EMAIL,
-      pass: process.env.MAIL_PASSWORD
+      pass: "heyqhuxghigmcwcz"
     }
   });
   
