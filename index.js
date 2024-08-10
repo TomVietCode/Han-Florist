@@ -49,6 +49,13 @@ routesAdmin(app);
 // Routes Client
 routesClient(app);
 
+// Not Exist Routes
+app.get("*", (req, res) => {
+  res.render("client/pages/error/404", {
+    pageTitle: "Không tìm thấy trang!"
+  })
+})
+
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
 });
