@@ -5,7 +5,7 @@ const createTreeHelper = require("../../helpers/create-tree.helper")
 module.exports.layoutCategory = async (req, res, next) => {
   const layoutCategory = await Category.find({
     status: "active",
-    deleted: false
+    deleted: false,
   })
 
   const layoutCategoryTree = createTreeHelper(layoutCategory)

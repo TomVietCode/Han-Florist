@@ -2,16 +2,16 @@ const mongoose = require("mongoose")
 
 const cartSchema = mongoose.Schema(
   {
+    user_id: String,
     products: [
       {
         product_id: String,
         quantity: Number,
       },
     ],
-    createdAt: {
+    expireAt: {
       type: Date,
-      default: Date.now,
-      expires: 1296000, 
+      expires: 0
     },
   },
 )

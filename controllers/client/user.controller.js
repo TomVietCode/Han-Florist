@@ -86,7 +86,7 @@ module.exports.forgotPasswordPost = async (req, res) => {
   const objectForgotPassword = new ForgotPassword({
     email: email,
     otp: generateHelper.generateRandomNumber(6),
-    expireAt: Date.now() + 2 * 60 * 1000,
+    expireAt: Date.now() + 5 * 60 * 1000,
   })
 
   await objectForgotPassword.save()
@@ -172,6 +172,6 @@ module.exports.resetPasswordPost = async (req, res) => {
 // [GET] /user/profile
 module.exports.profile = (req, res) => {
   res.render("client/pages/user/profile", {
-    pageTitle: "Thông tin người dùng"
+    pageTitle: "Thông tin người dùng",
   })
-} 
+}

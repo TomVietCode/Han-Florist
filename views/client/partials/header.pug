@@ -34,7 +34,7 @@ header.header
               a(href="/products") Sản phẩm
               +sub-menu(layoutCategoryTree)
             li
-              a(href="/cart") Giỏ hàng (#{totalProducts})
+              a(href="/cart") Giỏ hàng (#{totalProducts || 0})
             if(!user)
               li
                 a(href="/user/register") Đăng ký tài khoản
