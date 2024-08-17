@@ -9,30 +9,24 @@ block main
 
     .row
       .col-12
-        .chat
+        .chat(my-id=user.id)
           //- .inner-head
           //-   .inner-avatar EY
           //-   .inner-name Em Yêu
           .inner-body
-            .inner-incoming
-              .inner-name Em Yêu
-              .inner-content
-                | A ơi sang nhà e nha, nhà e không có ai ở nhà cả
-            .inner-outgoing
-              .inner-content
-                | Thế à? Ok e iu
-            .inner-incoming
-              .inner-name Em Yêu
-              .inner-content
-                | Nhanh nha nhanh nha
-            .inner-outgoing
-              .inner-content
-                | Ck đến rồi mà thấy ai ở nhà đâu e? Khóa cửa mà :(
-            .inner-incoming
-              .inner-name Em Yêu
-              .inner-content
-                | Thì em bảo nhà e không ai ở nhà mà :))
+            each message in chats 
+              div(
+                class=(user.id === message.userId ? "inner-outgoing" : "inner-incoming")
+              )
+                if(user.id !== message.userId)
+                  .inner-name #{message.fullName}
+                .inner-content 
+                  | #{message.content}
+
           .inner-foot
+            span(class="notify d-none") 
+              | Tin nhắn mới 
+              i.fa-solid.fa-angle-down
             form(
               class="inner-form"
               action=""
@@ -42,5 +36,13 @@ block main
                 placeholder="Nhập nội dung..."
                 name="content"
               )
+              span(
+                button-icon
+                class="btn btn-sm mx-1"
+              ) 
+                i(class="fa-regular fa-face-smile")
               button
                 i.fa-solid.fa-paper-plane
+
+    div(class="tooltip" role="tooltip")
+      emoji-picker(class="light")

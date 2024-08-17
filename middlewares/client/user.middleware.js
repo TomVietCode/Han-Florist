@@ -4,7 +4,7 @@ module.exports.userInfo = async (req, res, next) => {
   if(req.cookies.tokenUser){
     const user = await User.findOne({
       tokenUser: req.cookies.tokenUser
-    })
+    }).select("_id fullName tokenUser")
 
     if(user){
       res.locals.user = user
