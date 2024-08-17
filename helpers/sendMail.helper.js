@@ -5,7 +5,7 @@ module.exports.sendEmail = async (email, subject, html) => {
     service: "gmail",
     auth: {
       user: process.env.MAIL_EMAIL,
-      pass: MAIL_PASSWORD,
+      pass: process.env.MAIL_PASSWORD,
     },
   })
 
