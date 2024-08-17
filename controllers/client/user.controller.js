@@ -150,8 +150,8 @@ module.exports.resetPassword = async (req, res) => {
   })
 }
 
-// [GET] /user/reset-password
-module.exports.resetPasswordPost = async (req, res) => {
+// [PATCH] /user/reset-password
+module.exports.resetPasswordPatch = async (req, res) => {
   const newPassword = md5(req.body.confirmPassword)
 
   if (req.cookies.tokenUser) {

@@ -13,3 +13,14 @@ module.exports.userInfo = async (req, res, next) => {
 
   next()
 }
+
+module.exports.requireAuth = (req, res, next) => {
+  const user = res.locals.user
+
+  if(!user){
+    req.flash("error", "Bạn cần đăng nhập để sử dụng tính năng này!")
+    res.redirect("/user/login")
+  }
+
+  next()
+}

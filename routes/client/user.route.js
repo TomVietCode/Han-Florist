@@ -4,6 +4,8 @@ const validate = require("../../validates/client/user.validate")
 
 const controller = require("../../controllers/client/user.controller")
 
+const userMiddleware = require("../../middlewares/client/user.middleware")
+
 router.get("/register", controller.register)
 
 router.post("/register", validate.requiredFields, controller.registerPost)
@@ -22,10 +24,10 @@ router.get("/otp-password", controller.otpPassword)
 
 router.post("/otp-password", controller.otpPasswordPost)
 
-router.get("/reset-password", controller.resetPassword)
+router.get("/reset-password", userMiddleware.requireAuth, controller.resetPassword)
 
-router.post("/reset-password", controller.resetPasswordPost)
+router.patch("/reset-password", controller.resetPasswordPatch)
 
-router.get("/profile", controller.profile)
+router.get("/profile", userMiddleware.requireAuth, controller.profile)
 
 module.exports = router
