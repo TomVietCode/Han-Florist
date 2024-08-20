@@ -26,7 +26,7 @@ router.post("/otp-password", controller.otpPasswordPost)
 
 router.get("/reset-password", userMiddleware.requireAuth, controller.resetPassword)
 
-router.patch("/reset-password", controller.resetPasswordPatch)
+router.post("/reset-password", controller.resetPasswordPatch)
 
 router.get("/profile", userMiddleware.requireAuth, controller.profile)
 
