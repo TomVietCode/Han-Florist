@@ -75,18 +75,3 @@ if(buttonIcon) {
   });
 }
 // End Show Popup Icon
-
-// Typing
-const inputChat = document.querySelector("input[name='content']")
-var timeout
-if(inputChat){
-  inputChat.addEventListener("keypress", () => {
-    socket.emit("CLIENT_SEND_TYPING", "show")
-    clearTimeout(timeout)
-
-    timeOut = setTimeout(() => {
-      socket.emit("CLIENT_SEND_TYPING", "hidden");
-    }, 3000);
-  })
-}
-// End Typing
