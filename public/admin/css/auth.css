@@ -1,0 +1,46 @@
+body {
+  margin: 0;
+  padding: 0;
+  object-fit: cover;
+  font-family: "Roboto", serif;
+  color: #343A40;
+  background: #C9D6FF;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #E2E2E2, #C9D6FF);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #E2E2E2, #C9D6FF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+input {
+  height: 46px !important;
+  border-radius: 46px !important;
+  border: none !important;
+  padding-left: 1.5rem !important;
+  padding-right: 1.5rem !important;
+  margin-top: 1.5rem !important;
+  background: #E8F0FE !important;
+}
+
+.form-control:focus {
+  outline: 0;
+}
+
+.container {
+  margin-top: 10% !important;
+}
+.button-login {
+  height: 46px;
+  display: inline-block;
+  text-align: center;
+  padding-left: 4rem;
+  padding-right: 4rem;
+  margin-top: 0.8rem;
+  border-radius: 60px;
+  background: transparent;
+  color: rgba(62, 62, 62, 0.8);
+  border-color: rgba(62, 62, 62, 0.8);
+}
+
+.button-login:hover {
+  color: white;
+  border-color: rgb(62, 62, 62);
+  background-color: rgb(62, 62, 62)
+}

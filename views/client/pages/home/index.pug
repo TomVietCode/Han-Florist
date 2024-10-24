@@ -1,35 +1,36 @@
 extends ../../layouts/default.pug
-include ../../mixins/box-head.pug
+include ../../mixins/product-card.pug
 
 block main 
-  h1 Trang chủ
-  .container.my-3
-    +box-head("Sản phẩm nổi bật")
-    .row
-      each item in productsFeature
-        .col-2.mb-3
-          .product-item
-            .inner-image
-              a(href=`/products/detail/${item.slug}`)
-                img(src=item.thumbnail, alt=item.title)
-            .inner-content
-              h3.inner-title
-                a(href=`/products/detail/${item.slug}`) #{item.title}
-              .inner-price-new #{item.priceNew}$
-              .inner-price-old #{item.price}$
-              .inner-discount -#{item.discountPercentage}%
-    
-    +box-head("Sản phẩm mới nhất")
-    .row
-      each item in productsNew
-        .col-2.mb-3
-          .product-item
-            .inner-image
-              a(href=`/products/detail/${item.slug}`)
-                img(src=item.thumbnail, alt=item.title)
-            .inner-content
-              h3.inner-title
-                a(href=`/products/detail/${item.slug}`) #{item.title}
-              .inner-price-new #{item.priceNew}$
-              .inner-price-old #{item.price}$
-              .inner-discount -#{item.discountPercentage}%
+  div(class="carousel")
+    div(id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel")
+      div(class="carousel-indicators")
+        button(type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1")
+        button(type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2")
+        button(type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3")
+      div(class="carousel-inner")
+        div(class="carousel-item active")
+          img(class="d-block w-100" src="/images/banner-1.jpg" alt="First slide")
+        div(class="carousel-item")
+          img(class="d-block w-100" src="/images/banner-2.jpg" alt="Second slide")
+        div(class="carousel-item")
+          img(class="d-block w-100" src="/images/banner-3.jpg" alt="Third slide")
+      button(class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev")
+        span(class="carousel-control-prev-icon" aria-hidden="true")
+        span(class="visually-hidden") Previous
+      button(class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next")
+        span(class="carousel-control-next-icon" aria-hidden="true")
+        span(class="visually-hidden") Next
+
+  h2(class="head-title text-center mb-4 mt-4") SẢN PHẨM MỚI NHẤT
+  div(class="container pb-5")
+    div(class="row")
+      each item, index in productsNew
+        +product-card(item)
+
+  h2(class="head-title text-center mb-4 mt-4") SẢN PHẨM NỔI BẬT
+  div(class="container mb-5 pb-3")
+    div(class="row")
+      each item, index in productsFeature
+        if(index <= 7)
+          +product-card(item)

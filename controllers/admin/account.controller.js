@@ -51,12 +51,16 @@ module.exports.changeStatus = async (req, res) => {
 
     await Account.updateOne({ _id: id }, { status: status })
 
-    req.flash("success", "Cập nhật thành công!")
+    res.json({
+      code: 200,
+      message: "Cập nhật trạng thái thành công!"
+    })
   } catch (error) {
-    req.flash("error", "Cập nhật thất bại!")
+    res.json({
+      code: 400,
+      message: "Cập nhật trạng thái thất bại!"
+    })
   }
-
-  res.redirect("back")
 }
 
 // [DELETE] /admin/accounts/delete-item/:id

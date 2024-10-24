@@ -6,7 +6,8 @@ block main
     .row
       .col-8.mx-auto
         +box-head(pageTitle)
-
+    .row.justify-content-center
+      .col-md-6.form-box
         form(
           action="/user/login"
           method="POST"
@@ -14,6 +15,7 @@ block main
           div(class="form-group")
             label(for="email") Email *
             input(
+              placeholder="Vui lòng nhập email"
               type="email"
               class="form-control"
               id="email"
@@ -23,15 +25,19 @@ block main
           div(class="form-group")
             label(for="password") Mật khẩu *
             input(
+              placeholder="Vui lòng nhập mật khẩu"
               type="password"
               class="form-control"
               id="password"
               name="password"
               required
             )
-          a(href="/user/forgot-password") Quên mật khẩu ?
           div(class="form-group")
             button(
               type="submit"
-              class="btn btn-primary btn-block mt-2"
+              class="btn btn-primary btn-block mt-2 w-100"
             ) Đăng nhập
+          a(href="/user/forgot-password") Quên mật khẩu ?
+          div 
+            span Chưa có tài khoản? 
+            a(href="/user/register") Đăng ký

@@ -41,20 +41,20 @@ module.exports.index = async (req, res) => {
   const records = await ProductCategory.find(find).sort(sort)
 
   for (const item of records) {
-    if(item.createdBy){
+    if (item.createdBy) {
       const creator = await Account.findOne({
-        _id: item.createdBy
+        _id: item.createdBy,
       })
       item.creatorName = creator.fullName || ""
     }
 
-    if(item.updatedBy){
+    if (item.updatedBy) {
       const updater = await Account.findOne({ _id: item.updatedBy })
 
       item.updaterName = updater.fullName || ""
     }
   }
-  
+
   const newRecord = createTreeHelper(records)
 
   res.render("admin/pages/product-category/index.pug", {
@@ -104,15 +104,25 @@ module.exports.createPost = async (req, res) => {
 
 // [PATCH] /admin/product-category/change-status/:status/:id
 module.exports.changeStatus = async (req, res) => {
-  const id = req.params.id
-  const status = req.params.status
+  try {
+    const id = req.params.id
+    const status = req.params.status
 
-  await ProductCategory.updateOne({ _id: id }, { status: status, updatedBy: res.locals.user.id})
+    await ProductCategory.updateOne(
+      { _id: id },
+      { status: status, updatedBy: res.locals.user.id }
+    )
 
-  const categoryInfor = await ProductCategory.findOne({ _id: id })
-  req.flash("success", `Cập nhật danh mục ${categoryInfor.title} thành công`)
-
-  res.redirect("back")
+    res.json({
+      code: 200,
+      message: `Cập nhật trạng thái thành công!`,
+    })
+  } catch (error) {
+    res.json({
+      code: 400,
+      message: `Cập nhật trạng thái thất bại!`,
+    })
+  }
 }
 
 // [DELETE] /admin/product-category/delete/:id

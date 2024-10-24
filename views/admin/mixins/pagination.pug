@@ -6,12 +6,14 @@ mixin pagination(pagination)
           button(
             class="page-link"
             button-pagination=1
-          ) Trang đầu
+          )  
+            <i class="fa-solid fa-angles-left"></i>
         li(class="page-item")
           button(
             class="page-link"
             button-pagination=pagination.currentPage-1
-          ) Trang trước
+          ) 
+            <i class="fa-solid fa-angle-left"></i>
 
       - for (var i = 1 ; i <= pagination.totalPage ; i++)
           li(class=`page-item ${pagination.currentPage == i ? "active" : ""}`)
@@ -22,9 +24,11 @@ mixin pagination(pagination)
           button(
             class="page-link"
             button-pagination=pagination.currentPage+1
-          ) Kế tiếp
+          ) 
+            <i class="fa-solid fa-angle-right"></i>
         li(class="page-item")
           button(
             class="page-link"
             button-pagination=pagination.totalPage
-          ) Trang cuối
+          ) 
+            <i class="fa-solid fa-angles-right"></i>

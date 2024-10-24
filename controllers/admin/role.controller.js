@@ -1,10 +1,16 @@
 const Role = require("../../models/role.model")
+const Account = require("../../models/account.model")
 const systemConfig = require("../../config/system")
 
 // [GET] /admin/roles
 module.exports.index = async (req, res) => {
   const records = await Role.find({ deleted: false })
 
+  for (let role of records) {
+    const countAccount = await Account.countDocuments({ role_id: role.id })
+    role["totalAccount"] = countAccount
+  }
+  console.log(records)
   res.render("admin/pages/roles/index.pug", {
     pageTitle: "Nhóm quyền",
     records: records,

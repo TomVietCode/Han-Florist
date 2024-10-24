@@ -30,6 +30,9 @@ app.use(express.static(`${__dirname}/public`));
 // Method override (Ghi đè phương thức)
 app.use(methodOverride(`_method`));
 
+// parse application/json
+app.use(bodyParser.json())
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -40,12 +43,6 @@ app.use(flash());
 
 // TinyMce
 app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
-
-// Socket Io
-const server = createServer(app)
-const io = new Server(server)
-
-global._io = io
 
 // App local variable
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
@@ -64,6 +61,6 @@ app.get("*", (req, res) => {
   })
 })
 
-server.listen(port, () => {
+app.listen(port, () => {
   console.log(`App listening on port ${port}`);
 });

@@ -1,5 +1,5 @@
-mixin alert-success()
-  - if (messages.success)
+mixin alert-server()
+  if (messages.success)
     div(
       class="alert alert-success alert-show"
       show-alert
@@ -7,13 +7,14 @@ mixin alert-success()
     )
       | #{messages.success}
       button(class="btn btn-danger btn-sm" close-alert) x
+  if (messages.error)
+      div(
+        class="alert alert-danger alert-show"
+        show-alert
+        data-time="5000"
+      )
+        | #{messages.error}
+        button(class="btn btn-danger btn-sm" close-alert) x
 
-mixin alert-error()
-  - if (messages.error)
-    div(
-      class="alert alert-danger alert-show"
-      show-alert
-      data-time="5000"
-    )
-      | #{messages.error}
-      button(class="btn btn-danger btn-sm" close-alert) x
+    
+

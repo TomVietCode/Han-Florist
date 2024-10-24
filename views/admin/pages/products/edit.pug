@@ -2,12 +2,12 @@ extends ../../layouts/default.pug
 include ../../mixins/alert.pug
 include ../../mixins/tree.pug
 include ../../mixins/access.pug
+include ../../mixins/box-head.pug
 
 block main
-  +alert-error()
-  +alert-success()
+  +alert-server()
   if(userRole.permissions.includes("products_edit"))
-    h1(class="mb-4") Chỉnh sửa sản phẩm
+    +box-head(pageTitle)
 
     form(
       action=`/${prefixAdmin}/products/edit/${product.id}?_method=PATCH`
@@ -15,7 +15,8 @@ block main
       enctype="multipart/form-data"
     )
       div(class="form-group")
-        label(for="title") Tiêu đề
+        label(for="title") Tiêu đề 
+          span(class="required") *
         input(
           type="text"
           class="form-control"
@@ -64,74 +65,76 @@ block main
           rows="5"
           tinymce-area
         ) #{product.description}
-      div(class="form-group")
-        label(for="price") Giá
-        input(
-          type="number"
-          step="any"
-          class="form-control"
-          id="price"
-          name="price"
-          value=`${product.price}`
-          min="0"
+      .row
+        div(class="form-group col-4")
+          label(for="price") Giá (VNĐ)
+          input(
+            type="number"
+            step="any"
+            class="form-control"
+            id="price"
+            name="price"
+            value=`${product.price}`
+            min="0"
+          )
+        div(class="form-group col-4")
+          label(for="discount") Giảm giá (%)
+          input(
+            type="number"
+            step="any"
+            class="form-control"
+            id="discount"
+            name="discountPercentage"
+            value=`${product.discountPercentage}`
+            min="0"
+          )
+        div(class="form-group col-4")
+          label(for="stock") Số lượng
+          input(
+            type="number"
+            class="form-control"
+            id="stock"
+            name="stock"
+            value=`${product.stock}`
+            min="0"
+          )
+      .row
+        div(
+          class="form-group col-6"
+          upload-image
         )
-      div(class="form-group")
-        label(for="discount") % Giảm giá
-        input(
-          type="number"
-          step="any"
-          class="form-control"
-          id="discount"
-          name="discountPercentage"
-          value=`${product.discountPercentage}`
-          min="0"
-        )
-      div(class="form-group")
-        label(for="stock") Số lượng
-        input(
-          type="number"
-          class="form-control"
-          id="stock"
-          name="stock"
-          value=`${product.stock}`
-          min="0"
-        )
-      div(
-        class="form-group"
-        upload-image
-      )
-        label(for="thumbnail") Ảnh
-        input(
-          type="text"
-          class="form-control mb-2"
-          name="thumbnail"
-          placeholder="Nhập link ảnh..."
-          value=`${product.thumbnail}`
-        )
-        input(
-          type="file"
-          class="form-control-file"
-          id="thumbnail"
-          name="thumbnail"
-          accept="image/*"
-          upload-image-input
-        )
-        img(
-          src=`${product.thumbnail}`
-          class="image-preview"
-          upload-image-preview
-        ) 
-      div(class="form-group")
-        label(for="position") Vị trí
-        input(
-          type="number"
-          class="form-control"
-          id="position"
-          name="position"
-          placeholder="Tự động tăng"
-          min="1"
-          value=`${product.position}`
-        )
+          label(for="thumbnail") Ảnh
+          input(
+            type="text"
+            class="form-control mb-2"
+            name="thumbnail"
+            placeholder="Nhập link ảnh..."
+            value=`${product.thumbnail}`
+          )
+          input(
+            type="file"
+            class="form-control-file"
+            id="thumbnail"
+            name="thumbnail"
+            accept="image/*"
+            upload-image-input
+          )
+          img(
+            src=`${product.thumbnail}`
+            class="image-preview"
+            upload-image-preview
+          ) 
+        div(class="form-group col-6")
+          label(for="position") Vị trí
+          input(
+            type="number"
+            class="form-control"
+            id="position"
+            name="position"
+            placeholder="Tự động tăng"
+            min="1"
+            value=`${product.position}`
+          )
       div(class="form-group form-check form-check-inline")
         input(
           type="radio"
@@ -155,7 +158,7 @@ block main
       div(class="form-group")
         button(
           type="submit"
-          class="btn btn-primary"
+          class="btn button-default"
         ) Cập nhật
   else 
     +accessDenied()

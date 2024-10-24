@@ -45,3 +45,27 @@ if (confirmPassword) {
 }
 
 // End Confirm Password
+
+// Add to cart
+const addCarts = document.querySelectorAll(".add-cart")
+if (addCarts) {
+  addCarts.forEach((button) => {
+    button.addEventListener("click", () => {
+      const id = button.getAttribute("product-id")
+      fetch(`/cart/add/${id}`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ quantity: "1" }),
+      })
+        .then(() => {
+          const quantity = document.querySelector(".cart a")
+          const totalQuantity = quantity.textContent.slice(1, -1)
+          quantity.innerHTML = `<i class="fa-solid fa-bag-shopping"></i> (${parseInt(totalQuantity) + 1})`
+        })
+    })
+  })
+}
+// End add to cart

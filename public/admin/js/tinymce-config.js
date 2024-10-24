@@ -2,6 +2,7 @@ tinymce.init({
   selector: 'textarea[tinymce-area]',
   plugins: 'image',
   image_title: true,
+  height: 250,
   automatic_uploads: true,
   file_picker_types: 'image',
   file_picker_callback: function (cb, value, meta) {

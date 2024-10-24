@@ -2,21 +2,22 @@ extends ../../layouts/default.pug
 include ../../mixins/alert.pug
 include ../../mixins/tree.pug
 include ../../mixins/access.pug
+include ../../mixins/box-head.pug
 
 block main
+  +alert-server()
   if(userRole.permissions.includes("products-category_edit"))
-    h1(class="mb-4") Chỉnh sửa danh mục sản phẩm
-
-    +alert-success()
-    +alert-error()
+    +box-head(pageTitle)
 
     form(
       action=`/${prefixAdmin}/product-category/edit/${data.id}?_method=PATCH`
       method="POST"
     )
       div(class="form-group")
-        label(for="title") Tiêu đề
+        label(for="title") Tiêu đề 
+          span(class="required") *
         input(
+          placeholder="Nhập tiêu đề cho danh mục"
           type="text"
           class="form-control"
           id="title"
@@ -53,7 +54,7 @@ block main
           class="form-control"
           id="position"
           name="position"
-          placeholder="Tự động tăng"
+          placeholder=`Tự động tăng`
           min="1"
           value=data.position
         )
@@ -80,7 +81,7 @@ block main
       div(class="form-group")
         button(
           type="submit"
-          class="btn btn-primary"
+          class="btn button-default"
         ) Cập nhật
   else 
     +accessDenied()

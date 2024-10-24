@@ -1,2 +1,32 @@
-footer.footer 
-  | Copyright #{setting.copyright || ""} 
+block css
+  link(rel="stylesheet", href="/css/partial.css")
+
+footer(class="footer")
+  .container
+    .row
+      .col-sm-3
+        .inner-logo
+          img(src="/images/logo.svg", alt="Logo")
+        p Hotline: 1900 0000 - 0987 654 321
+        p Email: hanflorist@gmail.com
+      .col-sm-3
+        h6 Chăm sóc khách hàng
+        p Hướng dẫn đặt hàng và thanh toán
+        p Chính sách giao hàng
+        p Hướng dẫn đặt hoa
+      .col-sm-3
+        h6 Dịch vụ hoa tươi
+        each item, index in layoutCategoryTree
+          if(index <= 3)
+            p 
+              a(href=`/products/${item.slug}`) #{item.title} 
+          
+      .col-sm-3
+        h6 Theo dõi
+        p
+          i(class="fa-brands fa-facebook")
+          a(href="https://www.facebook.com/", class="p-1") Facebook
+        p
+          i(class="fa-brands fa-instagram")
+          a(href="https://www.instagram.com/", class="p-1") Instagram
+        p Copyright © 2024. Allright reserved

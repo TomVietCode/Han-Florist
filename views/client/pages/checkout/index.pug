@@ -10,7 +10,7 @@ block main
     if(cartDetail.products.length > 0)
       .row
         .col-9
-          table(class="table table-bordered" table-cart)
+          table(class="table table-cart" table-cart)
             thead
               tr
                 th STT
@@ -30,20 +30,22 @@ block main
                       width="80px"
                     )
                   td #{item.productInfo.title}
-                  td #{item.productInfo.newPrice}$
+                  td #{item.productInfo.newPrice.toLocaleString()}đ
                   td #{item.quantity}
-                  td #{item.productInfo.totalPrice}$
+                  td #{item.productInfo.totalPrice.toLocaleString()}đ
 
           
         .col-3
-          h3(class="text-right") Tổng đơn hàng: #{cartDetail.totalPrice}$
-          .card.p-4.my-4
+          h3(class="text-right" style="text-transform: uppercase;") Tổng: #{cartDetail.totalPrice.toLocaleString()}VNĐ
+          .card.p-4.my-4.infor-checkout
             form(
               action="/checkout/order"
               method="POST"
-            )
+            ) 
+              div 
+                h5(class="fw-bold") Thông tin khách hàng
               div(class="form-group")
-                label(for="fullName") Họ tên *
+                label(for="fullName") Họ và tên *
                 input(
                   type="text"
                   class="form-control"
@@ -72,5 +74,5 @@ block main
               div(class="form-group mt-2")
                 button(
                   type="submit"
-                  class="btn btn-success btn-block"
+                  class="btn button-checkout btn-success btn-block ms-0"
                 ) ĐẶT HÀNG

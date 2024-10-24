@@ -12,60 +12,34 @@ mixin select-tree(records, level = 1, current_id = "")
 mixin table-tree(items, level = 1)
   each item, index in items 
     - const prefix = Array(level + 1).join("-- ")
-    tr
+    tr(class="table-row")
       td #{item.count + 1}
-      td #{prefix}#{item.title}
+      
+      td(class="product-info")
+        div(class="product-title")
+          a(href=`/${prefixAdmin}/product-category/detail/${item.id}`) #{prefix}#{item.title}
+          div(class="rud-button")
+            a(class="btn btn-outline-info btn-sm mr-1", href=`/${prefixAdmin}/product-category/detail/${item.id}`)
+              i(class="fa-solid fa-eye")
+            if(userRole.permissions.includes("products-category_edit"))
+              a(class="btn btn-outline-warning btn-sm mr-1", href=`/${prefixAdmin}/product-category/edit/${item.id}`)
+                i(class="fa-solid fa-pen-to-square")
+            if(userRole.permissions.includes("products-category_delete"))
+              button(class="btn btn-outline-danger btn-sm mr-1", button-delete, data-id=item.id)
+                i(class="fa-solid fa-trash-can")  
       td
-        input(
-          name="position"
-          value=item.position
-          type="number"
-          style="width: 60px;"
-          min="1"
-        )
+        input(name="position", value=item.position, type="number", style="width: 40px;", min="1")
       td
-        if(item.status == "active")
-          if(userRole.permissions.includes("products-category_edit"))
-            button(
-              button-change-status 
-              data-id=item.id 
-              data-status="inactive"
-              class="badge badge-success"
-            ) Hoạt động 
-          else  
-            span(
-              class="badge badge-success"
-            ) Hoạt động 
+        if(userRole.permissions.includes("products-category_edit"))
+          button(class=`badge rounded-pill button-status ${item.status === "active" ? "button-active" : ""}`, button-change-status, data-id=item.id, data-status=`${item.status === "active" ? "inactive" : "active"}`) #{item.status === "active" ? "Hoạt động" : "Dừng hoạt động"}
         else 
-          if(userRole.permissions.includes("products-category_edit"))
-            button(
-              button-change-status 
-              data-id=item.id 
-              data-status="active"
-              class="badge badge-danger"
-            ) Dừng hoạt động 
-          else  
-            span(
-              class="badge badge-danger"
-            ) Hoạt động 
+          span(class=`badge rounded-pill button-status ${item.status === "active" ? "button-active" : ""}`) #{item.status === "active" ? "Hoạt động" : "Dừng hoạt động"}
       td
         div #{item.creatorName}
         div #{moment(item.createdAt).format("DD/MM/YY HH:mm:ss")}
       td
         div #{item.updaterName}
         div #{moment(item.updatedAt).format("DD/MM/YY HH:mm:ss")}
-
-      td
-        if(userRole.permissions.includes("products-category_edit"))
-          a(
-            href=`/${prefixAdmin}/product-category/edit/${item.id}`
-            class="btn btn-warning btn-sm"
-          ) Sửa
-        if(userRole.permissions.includes("products-category_delete"))
-          button(
-            class="btn btn-danger btn-sm ml-1"
-            button-delete 
-            data-id=item.id
-          ) Xóa 
+        
     if item.children && item.children.length > 0
       +table-tree(item.children, level + 1)

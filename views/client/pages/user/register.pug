@@ -6,7 +6,8 @@ block main
     .row
       .col-8.mx-auto
         +box-head(pageTitle)
-
+    .row.justify-content-center
+      .col-md-6.form-box
         form(
           action="/user/register"
           method="POST"
@@ -14,6 +15,7 @@ block main
           div(class="form-group")
             label(for="fullName") Họ và tên *
             input(
+              placeholder="Nhập họ và tên"
               type="text"
               class="form-control"
               id="fullName"
@@ -22,6 +24,7 @@ block main
           div(class="form-group")
             label(for="email") Email *
             input(
+              placeholder="Nhập email của bạn"
               type="email"
               class="form-control"
               id="email"
@@ -31,6 +34,7 @@ block main
           div(class="form-group")
             label(for="password") Mật khẩu *
             input(
+              placeholder="Nhập mật khẩu"
               type="password"
               class="form-control"
               id="password"
@@ -40,5 +44,5 @@ block main
           div(class="form-group")
             button(
               type="submit"
-              class="btn btn-primary btn-block mt-2"
+              class="btn btn-primary btn-block mt-2 w-100"
             ) Đăng ký

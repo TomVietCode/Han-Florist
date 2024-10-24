@@ -1,49 +1,81 @@
 include ../mixins/sub-menu.pug
-header.header
-  .container
-    .row.align-items-center
-      .col-3
-        .inner-logo
-          a(href="/")
-            img(src=setting.logo || "", alt="Logo")
 
-      .col-5
-        form(
-          action="/search"
-          method="GET"
-        ) 
-          div(class="form-group d-flex mb-0")
-            input(
-              type="text"
-              placeholder="Nhập từ khóa..."
-              class="form-control"
-              name="keyword"
-              value=keyword
-            )
-            button(
-              type="submit"
-              class="btn btn-primary"
-            ) Tìm
+header(class="header")
+  .container
+    nav(class="main-nav")
+      .inner-logo
+        a(href="/", class="d-block")
+          img(src="/images/logo.svg", alt="Logo")
+      .nav-main
+        .nav-top
+          ul(class="menu")
+            li(class="search")
+              form(action="/search", method="GET")
+                .d-flex.mb-0.position-relative
+                  input(type="text", placeholder="Nhập từ khóa...", class="search-bar", name="keyword", value="")
+                  button(type="submit", class="search-button")
+                    i(class="fa-solid fa-magnifying-glass")
+            li(class="cart")
+              a(href="/cart")
+                i(class="fa-solid fa-bag-shopping")
+                | (#{totalProducts || 0})
+            li(class="auth")
+              if(!user)
+                  a(href="/user/register") Đăng ký
+                  a(href="/user/login") Đăng nhập
+              else
+                  a(href="#") #{user.fullName}
+                  a(href="/user/logout") Đăng xuất              
+        .nav-bot
+          +sub-menu(layoutCategoryTree)
+                  
+
+//- header.header
+//-   .container
+//-     div(class="d-flex justify-content-between py-2")
+//-       .inner-logo
+//-         a(href="/")
+//-           img(src="images/logo.svg", alt="Logo")
+//-       div(class="nav-main")
+//-         div(class="nav-top d-flex justify-content-end")
+//-           div
+//-             form(
+//-             action="/search"
+//-             method="GET"
+//-             ) 
+//-               div(class="d-flex mb-0 position-relative")
+//-                 input(
+//-                   type="text"
+//-                   placeholder="Nhập từ khóa..."
+//-                   class="search-bar"
+//-                   name="keyword"
+//-                   value=keyword
+//-                 )
+//-                 button(
+//-                   type="submit"
+//-                   class="search-button"
+//-                 ) 
+//-                   i(class="fa-solid fa-magnifying-glass")
+
+//-           div 
+//-             a(href="/cart") 
+//-               i(class="fa-solid fa-bag-shopping")
+//-                 | (#{totalProducts || 0})
+//-           div 
+//-             if(!user)
+//-                 a(href="/user/register") Đăng ký
+//-                 a(href="/user/login") Đăng nhập
+//-             else
+//-                 a(href="/user/profile") #{user.fullName}
+//-                 a(href="/user/logout") Đăng xuất
+          
+//-         div(class="nav-bot")
+//-           div(class="sub-menu")
+//-               a(href="/products") Sản phẩm
+//-               +sub-menu(layoutCategoryTree)
+          
             
-      .col-4
-        .inner-menu
-          ul
-            li
-              a(href="/") Trang chủ
-            li(class="sub-menu")
-              a(href="/products") Sản phẩm
-              +sub-menu(layoutCategoryTree)
-            li
-              a(href="/cart") Giỏ hàng (#{totalProducts || 0})
-            if(!user)
-              li
-                a(href="/user/register") Đăng ký tài khoản
-              li
-                a(href="/user/login") Đăng nhập
-            else
-              li 
-                a(href="/user/profile") #{user.fullName}
-              li 
-                a(href="/user/logout") Đăng xuất
-              li
-                a(href="/chat") Trò chuyện
+            
+            
+
+  

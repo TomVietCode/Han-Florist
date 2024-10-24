@@ -1,16 +1,14 @@
 header.header
-  .container-fluid
-    .row.align-items-center
-      .col-3
-        .inner-logo
-          a(href=`/${prefixAdmin}/dashboard`) ADMIN
-      .col-9
-        div(class="text-right")
-          a(
-            href=`/${prefixAdmin}/my-account`
-            class="btn btn-primary btn-sm mr-3"
-          ) #{user.fullName}
-          a(
-            href=`/${prefixAdmin}/auth/logout`
-            class="btn btn-danger btn-sm"
-          ) Đăng xuất
+  .inner-logo
+    a(href=`/${prefixAdmin}/dashboard`)
+      img(src="/admin/images/logo.svg")
+  .head-title Trang quản trị admin
+  .account-wrapper
+    .account-info
+      img.account-avatar(src=`${user.avatar || "/admin/images/avatar.png"}` alt="Avatar")
+      span.account-name #{user.fullName}
+      i.fa-solid.fa-caret-down
+    .dropdown-menu
+      a(href=`/${prefixAdmin}/my-account`) Thông tin tài khoản
+      a(href=`/${prefixAdmin}/change-password`) Đổi mật khẩu
+      a(href=`/${prefixAdmin}/auth/logout`) Đăng xuất

@@ -1,20 +1,21 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert.pug
 include ../../mixins/access.pug
+include ../../mixins/box-head.pug
 
 block main  
-  +alert-success()
-  +alert-error()
+  +alert-server()
   if(userRole.permissions.includes("roles_edit"))
-    h1(class="mb-4") Chỉnh sửa nhóm quyền
-
+    +box-head(pageTitle)
     form(
       action=`/${prefixAdmin}/roles/edit/${data.id}?_method=PATCH`
       method="POST"
     )
       div(class="form-group")
-        label(for="title") Tiêu đề
+        label(for="title") Tiêu đề 
+          span(class="required") *
         input(
+          placeholder="Nhập tiêu đề cho nhóm quyền"
           type="text"
           class="form-control"
           id="title"
@@ -25,6 +26,7 @@ block main
       div(class="form-group")
         label(for="desc") Mô tả
         input(
+          placeholder="Nhập mô tả ngắn cho nhóm quyền"
           type="text"
           class="form-control"
           id="desc"
@@ -34,7 +36,7 @@ block main
       div(class="form-group")
         button(
           type="submit"
-          class="btn btn-primary"
+          class="btn button-default"
         ) Cập nhật
   else 
     +accessDenied()

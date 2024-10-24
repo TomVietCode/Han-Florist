@@ -6,7 +6,7 @@ include ../../mixins/alert.pug
 include ../../mixins/access.pug
 
 block main
-  +alert-success()
+  +alert-server()
   if(userRole.permissions.includes("products_delete"))
     h1(class="mb-4") #{pageTitle}
 

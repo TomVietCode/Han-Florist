@@ -1,22 +1,28 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert.pug
 include ../../mixins/access.pug
+include ../../mixins/box-head.pug
 
 block main
-  +alert-success()
-  +alert-error()
+  +alert-server()
   if(userRole.permissions.includes("roles_permissions"))
-    h1(class="mb-4") Phân quyền
+    div(class="card mb-3")
+      div(class="card-header")
+        div(class="row")
+          div(class="col-4")
+            h2(class="inner-title") #{pageTitle}
+          div(class="col-6")
+          div(class="col-2")
+            if(records.length > 0)
+              div(data-records=records)
+              div(class="text-right")
+                button(
+                  type="submit"
+                  class="btn button-default px-3 py-2"
+                  button-submit-permissions
+                ) Cập nhật
 
     if(records.length > 0)
-      div(data-records=records)
-      div(class="text-right")
-        button(
-          type="submit"
-          class="btn btn-primary mb-3"
-          button-submit-permissions
-        ) Cập nhật
-
       table(
         class="table table-hover table-sm"
         table-permissions
@@ -41,8 +47,8 @@ block main
                 
           //- Danh mục sản phẩm
           tr
-            td(colspan="4" class="bg-secondary text-white")
-              b Danh mục sản phẩm
+            td(colspan="4" class="bg-dark text-white ")
+              span(class="font-italic") Danh mục sản phẩm
           tr(data-name="products-category_view")
             td Xem
             each item, index in records
@@ -66,8 +72,8 @@ block main
 
           //- Sản phẩm
           tr
-            td(colspan="4" class="bg-secondary text-white")
-              b Sản phẩm
+            td(colspan="4" class="bg-dark text-white")
+              span(class="font-italic") Sản phẩm
           tr(data-name="products_view")
             td Xem
             each item, index in records
@@ -91,8 +97,8 @@ block main
 
           //- Nhóm quyền
           tr
-            td(colspan="4" class="bg-secondary text-white")
-              b Nhóm quyền
+            td(colspan="4" class="bg-dark text-white")
+              span(class="font-italic") Nhóm quyền
           tr(data-name="roles_view")
             td Xem
             each item, index in records
@@ -121,8 +127,8 @@ block main
 
           //- Tài khoản 
           tr
-            td(colspan="4" class="bg-secondary text-white")
-              b Tài khoản
+            td(colspan="4" class="bg-dark text-white")
+              span(class="font-italic") Tài khoản
           tr(data-name="accounts_view")
             td Xem
             each item, index in records
@@ -146,8 +152,8 @@ block main
 
           //- Cài đặt chung
           tr
-            td(colspan="4" class="bg-secondary text-white")
-              b Cài đặt chung
+            td(colspan="4" class="bg-dark text-white")
+              span(class="font-italic") Cài đặt chung
           tr(data-name="settings_view")
             td Xem
             each item, index in records

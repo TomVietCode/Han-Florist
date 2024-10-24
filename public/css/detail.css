@@ -1,0 +1,113 @@
+.detail, .product-related {
+  padding: 30px 15px;
+  margin-right: 5rem;
+  margin-left: 5rem;
+}
+
+.detail-image{
+  width: 500px;
+  height: 550px;
+}
+
+.detail-image img {
+  width: 100%;
+  height: 100%;
+}
+
+.detail-title h1{
+  font-family: 'Josefin Sans', Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
+  font-size: 2.2rem;
+  font-weight: 400;
+  color: #DD4499;
+}
+
+.product-desc {
+  margin-top: 1.5rem;
+}
+
+.total {
+  margin-bottom: 1.5rem;
+}
+.total > h4 {
+  font-size: 20px;
+  font-weight: 500;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.total > p {
+  font-size: 16px;
+  font-weight: 400;
+  color: #888;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.total .total-price {
+  font-size: 30px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.stock, .detail-quantity {
+  padding: .5rem 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.stock span, .detail-quantity > label {
+  font-size: 16px;
+  text-transform: uppercase;
+  margin: 0;
+  display: inline-block;
+  align-self: center;
+}
+
+.stock span:nth-child(2){
+  padding: 5px 12px;
+  border: 1px solid #222;
+  line-height: 20px;
+  width: 70px;
+  color: #000;
+  text-align: center;
+}
+
+.detail-quantity > input{
+  padding: 5px 12px;
+  border: 1px solid #222;
+  line-height: 20px;
+  width: 70px;
+  color: #000;
+}
+
+.buy {
+  margin-top: 1rem;
+  padding: 10px 0;
+}
+
+.buy button {
+  text-transform: uppercase;
+  text-align: center;
+  padding: 10px 20px;
+  border: 1px solid #111;
+  color: #222;
+  background: transparent;
+  cursor: pointer;
+  width: 100%;
+  font-size: 22px;
+}
+
+.buy button:hover {
+  background: #111;
+  color: #FFF;
+}
+
+.related-head {
+  margin-bottom: 1.5rem;
+}
+.related-head h3{
+  text-transform: uppercase;
+  font-weight: 400;
+  color: #DD4499;
+}

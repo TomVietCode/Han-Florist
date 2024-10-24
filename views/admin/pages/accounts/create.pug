@@ -1,13 +1,12 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert.pug
 include ../../mixins/access.pug
+include ../../mixins/box-head.pug
 
 block main
+  +alert-server()
   if(userRole.permissions.includes("accounts_create"))
-    h1(class="mb-4") Thêm mới tài khoản
-
-    +alert-error()
-    +alert-success()
+    +box-head("Tạo tài khoản quản trị")
 
     form(
       action=`/${prefixAdmin}/accounts/create`
@@ -15,7 +14,8 @@ block main
       enctype="multipart/form-data"
     )
       div(class="form-group")
-        label(for="fullName") Họ tên *
+        label(for="fullName") Họ tên 
+          span(class="required") *
         input(
           type="text"
           class="form-control"
@@ -23,7 +23,8 @@ block main
           name="fullName"
         )
       div(class="form-group")
-        label(for="email") Email *
+        label(for="email") Email 
+          span(class="required") *
         input(
           type="email"
           class="form-control"
@@ -31,7 +32,8 @@ block main
           name="email"
         )
       div(class="form-group")
-        label(for="password") Mật khẩu *
+        label(for="password") Mật khẩu 
+          span(class="required") *
         input(
           type="password"
           class="form-control"
@@ -92,7 +94,7 @@ block main
       div(class="form-group")
         button(
           type="submit"
-          class="btn btn-primary"
+          class="btn button-default"
         ) Tạo mới
   else 
     +accessDenied()

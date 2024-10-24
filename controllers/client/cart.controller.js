@@ -14,12 +14,12 @@ module.exports.index = async (req, res) => {
       _id: product.product_id,
     }).select("thumbnail title price discountPercentage slug")
 
-    productInfo.discountedPrice = (
-      (1 - productInfo.discountPercentage / 100) *
-      productInfo.price
-    ).toFixed(0)
-    product.totalPrice = productInfo.discountedPrice * product.quantity
+    let discountedPrice = Math.round(
+      (1 - productInfo.discountPercentage / 100) * productInfo.price
+    )
+    product.totalPrice = discountedPrice * product.quantity
     cartTotalPrice += product.totalPrice
+    productInfo.discountedPrice = discountedPrice.toLocaleString()
     product.productInfo = productInfo
   }
 

@@ -96,16 +96,24 @@ module.exports.index = async (req, res) => {
 
 // [PATCH] /admin/products/change-status/:status/:id
 module.exports.changeStatus = async (req, res) => {
-  const status = req.params.status
-  const id = req.params.id
-  const userId = res.locals.user.id
-  
-  await Product.updateOne({ _id: id }, { status: status, updatedBy: userId })
-
-  const infoProduct = await Product.findOne({ _id: id })
-  req.flash("success", `Cập nhật sản phẩm ${infoProduct.title} thành công!`)
-
-  res.redirect(`back`)
+  try {
+    const status = req.params.status
+    const id = req.params.id
+    const userId = res.locals.user.id
+    
+    await Product.updateOne({ _id: id }, { status: status, updatedBy: userId })
+      
+    res.json({
+      code: 200,
+      message: `Cập nhật sản phẩm thành công!`
+    })
+  } catch (error) {
+    req.flash("error", `Cập nhật sản phẩm thất bại!`)
+    res.json({
+      code: 400,
+      message: `Cập nhật sản phẩm thất bại!`
+    })
+  }
 }
 
 // [PATCH] /admin/products/change-multi

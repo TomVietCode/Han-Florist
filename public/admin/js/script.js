@@ -1,3 +1,59 @@
+// Dropdown Header
+document.querySelector('.account-info').addEventListener('click', function() {
+  // Chuyển đổi giữa hiển thị và ẩn menu
+  const dropdownMenu = document.querySelector('.dropdown-menu');
+  dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+});
+
+// Bắt sự kiện click ra ngoài để ẩn menu
+window.addEventListener('click', function(event) {
+  const dropdownMenu = document.querySelector('.dropdown-menu');
+  if (!event.target.closest('.account-wrapper')) {
+    dropdownMenu.style.display = 'none';
+  }
+});
+// End Dropdown Header
+
+// Show Alert
+const showAlert = document.querySelector("[show-alert]") 
+  if(showAlert){
+    let dataTime = showAlert.getAttribute("data-time")
+    dataTime = parseInt(dataTime)
+  
+    // Ẩn thông báo sau một khoảng thời gian
+    setTimeout(() => {
+      showAlert.classList.add("alert-hidden")
+    }, dataTime);
+  
+    // Tắt thông báo khi nhấn nút "x"
+    const closeButton = showAlert.querySelector("[close-alert]")
+    closeButton.addEventListener("click", () => {
+      showAlert.classList.add("alert-hidden")
+    })
+  }
+// End Show Alert
+
+const showMessage = (message) => {
+  const showAlert = document.querySelector("[show-alert]")
+
+  if(showAlert){
+    let dataTime = showAlert.getAttribute("data-time")
+    dataTime = parseInt(dataTime)
+    showAlert.classList.remove("alert-hidden")
+    showAlert.innerHTML = `${message} <button class="btn btn-danger btn-sm" close-alert>x</button>`
+    // Ẩn thông báo sau một khoảng thời gian
+    setTimeout(() => {
+      showAlert.classList.add("alert-hidden")
+    }, dataTime);
+  
+    // Tắt thông báo khi nhấn nút "x"
+    const closeButton = showAlert.querySelector("[close-alert]")
+    closeButton.addEventListener("click", () => {
+      showAlert.classList.add("alert-hidden")
+    })
+  }
+}
+
 //Button Status
 const buttonsStatus = document.querySelectorAll("[button-status]")
 if(buttonsStatus.length > 0){
@@ -66,14 +122,20 @@ if(listButtonChangeStatus.length > 0){
   listButtonChangeStatus.forEach(button => {
     button.addEventListener("click", () => {
       const id = button.getAttribute("data-id")
-      const status = button.getAttribute("data-status")
+      const status = button.classList.contains("button-active") ? "inactive" : "active"
       const path = formChangeStatus.getAttribute("data-path")
 
-      let action = `${path}/${status}/${id}?_method=PATCH`
-
-      formChangeStatus.action = action
-
-      formChangeStatus.submit()
+      fetch(`${path}/${status}/${id}`,{
+        method: "PATCH"
+      })
+        .then(res => res.json())
+        .then(data => {
+          if(data.code === 200) {
+            button.classList.toggle("button-active")
+            button.textContent = (status === "active" ? "Hoạt động" : "Dừng hoạt động")
+            showMessage(data.message)
+          }
+        })
     })
   })
 }
@@ -172,26 +234,6 @@ if(formDeleteItem){
   })
 }
 // End Delete Item
-
-
-// Show Alert
-const showAlert = document.querySelector("[show-alert]")
-if(showAlert){
-  let dataTime = showAlert.getAttribute("data-time")
-  dataTime = parseInt(dataTime)
-
-  // Ẩn thông báo sau một khoảng thời gian
-  setTimeout(() => {
-    showAlert.classList.add("alert-hidden")
-  }, dataTime);
-
-  // Tắt thông báo khi nhấn nút "x"
-  const closeButton = showAlert.querySelector("[close-alert]")
-  closeButton.addEventListener("click", () => {
-    showAlert.classList.add("alert-hidden")
-  })
-}
-// End Show Alert
 
 // Image Preview
 const uploadImage = document.querySelector("[upload-image]")

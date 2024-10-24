@@ -1,9 +1,10 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert.pug
+include ../../mixins/box-head.pug
+
 block main
-  +alert-success()
-  +alert-error()
-  h1 Cài đặt chung
+  +alert-server()
+  +box-head(pageTitle)
   
   form(
     action=`/${prefixAdmin}/settings/general?_method=PATCH`
@@ -11,7 +12,8 @@ block main
     enctype="multipart/form-data"
   )
     div(class="form-group")
-      label(for="websiteName") Tên website
+      label(for="websiteName") Tên website 
+        span(class="required") *
       input(
         type="text"
         class="form-control"
@@ -77,5 +79,5 @@ block main
     div(class="form-group")
       button(
         type="submit"
-        class="btn btn-primary"
+        class="btn button-default"
       ) Cập nhật

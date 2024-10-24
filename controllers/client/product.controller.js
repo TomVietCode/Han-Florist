@@ -9,10 +9,7 @@ module.exports.index = async (req, res) => {
   }).sort({ position: "desc" })
 
   const newProducts = products.map((item) => {
-    item.priceNew = (
-      (item.price * (100 - item.discountPercentage)) /
-      100
-    ).toFixed(0)
+    item.priceNew = Math.round(((1 - item.discountPercentage/100) * item.price)).toLocaleString()
     return item
   })
 
@@ -32,12 +29,30 @@ module.exports.detail = async (req, res) => {
 
   try {
     const product = await Product.findOne(find)
-    product.priceNew = ((1 - product.discountPercentage/100) * product.price).toFixed(0)
+    product.priceNew = Math.round(((1 - product.discountPercentage/100) * product.price)).toLocaleString()
+
+    const relatedProduct = await Product.find({
+      _id: {$ne: product.id},
+      categoryId: product.categoryId,
+      deleted: false,
+      status: "active"
+    }).limit(4)
+
+    let newProducts = []
+    if(relatedProduct.length > 0){
+      newProducts = relatedProduct.map((item) => {
+        item.priceNew = Math.round(((1 - item.discountPercentage/100) * item.price)).toLocaleString()
+        return item
+      })
+    }
+
     res.render("client/pages/products/detail.pug", {
       pageTitle: `${product.title}`,
       product: product,
+      relatedProduct: newProducts
     })
   } catch (error) {
+    console.log(error)
     res.redirect("back")
   }
 }

@@ -17,8 +17,7 @@ module.exports.index = async (req, res) => {
       _id: product.product_id,
     }).select("thumbnail title price discountPercentage")
 
-    productInfo.newPrice =
-      ((1 - productInfo.discountPercentage / 100) * productInfo.price).toFixed(0)
+    productInfo.newPrice = Math.round(((1 - productInfo.discountPercentage/100) * productInfo.price))
     productInfo.totalPrice = productInfo.newPrice * product.quantity
     cart.totalPrice += productInfo.totalPrice
     product.productInfo = productInfo
@@ -33,6 +32,11 @@ module.exports.index = async (req, res) => {
 // [POST] /checkout/order
 module.exports.orderPost = async (req, res) => {
   const cartId = req.cookies.cartId
+  if(!req.body.fullName && !req.body.phone && req.body.address) {
+    req.flash("error", "Vui lòng nhập đầy đủ thông tin")
+    res.redirect("back")
+    return
+  }
   const userInfo = req.body
   const orderDetail = {
     userInfo: userInfo,
@@ -85,7 +89,7 @@ module.exports.orderSuccess = async (req, res) => {
 
     item.thumbnail = productInfo.thumbnail;
     item.title = productInfo.title;
-    item.priceNew = ((1 - item.discountPercentage/100) * item.price).toFixed(0);
+    item.priceNew = Math.round(((1 - item.discountPercentage/100) * item.price))
     item.totalPrice = item.priceNew * item.quantity;
     totalPrice += item.totalPrice;
   }

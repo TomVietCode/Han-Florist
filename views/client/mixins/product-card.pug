@@ -1,0 +1,19 @@
+mixin product-card(item)
+ div(class="col-3 mb-4")
+  div(class="product-card")
+    div(class="product-image")
+      div(class="layer")
+      img(src=item.thumbnail alt=item.title)
+      div(class="hover")
+        a(href=`/products/detail/${item.slug}`)
+          i(class="fa-solid fa-eye")
+        span(class="add-cart" product-id=item.id)
+          i(class="fa-solid fa-bag-shopping")
+    div(class="product-content")
+      div(class="product-title mt-3")
+        h4
+          a(href=`/products/detail/${item.slug}`) #{item.title}
+      div(class="product-price")
+        span(class="price") #{item.priceNew ? item.priceNew : Math.round((item.price * (1 - item.discountPercentage/100))).toLocaleString()}đ
+        if(item.discountPercentage)
+          span(class="discount") #{item.price.toLocaleString()}đ

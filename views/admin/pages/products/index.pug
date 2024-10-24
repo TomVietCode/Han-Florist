@@ -4,176 +4,122 @@ include ../../mixins/search.pug
 include ../../mixins/pagination.pug
 include ../../mixins/alert.pug
 include ../../mixins/access.pug
+include ../../mixins/box-head.pug
 
 block main
-  +alert-success()
-  +alert-error()
+  +alert-server()
   if(userRole.permissions.includes("products_view"))
-    h1(class="mb-4") #{pageTitle}
-    .card.mb-3 
-      .card-header Bộ lọc và Tìm kiếm
-        if(userRole.permissions.includes("products_delete"))
-          a(
-            href="/admin/products/recycle-bin"
-            class="btn btn-primary position-relative float-right"
-          ) Thùng rác
-            span(
-              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-            ) #{countDeleted}
-      .card-body
-        .row
-          .col-6
+    div(class="card mb-3")
+      div(class="card-header")
+        div(class="row")
+          div(class="col-4")
+            h2(class="inner-title") #{pageTitle}
+          div(class="col-6")
+          div(class="col-2")
+            div(class="btn-create")
+              a(class="btn btn-outline-default", href="/admin/products/create") + Thêm Mới
+    div(class="card mb-3")
+      div(class="card-header")
+        div(class="row")
+          div(class="col-4 d-flex align-items-center")
+            span(class="card-head") Thao tác
+          div(class="col-6")
+          if(userRole.permissions.includes("products_delete"))
+            div(class="col-2")
+              a(class="btn button-default position-relative float-right", href="/admin/products/recycle-bin")
+                i(class="fa-solid fa-trash")
+                span(class="position-absolute start-100 translate-middle badge rounded-pill bg-danger", style="top: -20%; right: -20%; font-weight: 400;") #{countDeleted}
+      div(class="card-body")
+        div(class="row")
+          div(class="col-4 d-flex vertical-align-center")
             +filter-status(filterStatus)
-          .col-6
-            +search(keyword)
-    .card-mb-3 
-      .card-header Sắp xếp
-      .card-body
-        .row 
-          .col-4 
-            div(sort)
-              select(
-                class="form-control"
-                name="sort"
-                sort-select
-              )
+          div(class="col-4")
+            div(class="d-flex", sort)
+              select(class="form-control", name="sort", sort-select)
                 option(value="position-desc") Vị trí giảm dần
                 option(value="position-asc") Vị trí tăng dần
                 option(value="price-desc") Giá giảm dần
                 option(value="price-asc") Giá tăng dần
                 option(value="title-asc") Tiêu đề A - Z
                 option(value="title-desc") Tiêu đề Z - A
-          .col-4   
-            button(
-              class="btn btn-danger"
-              sort-clear
-            ) Clear
-    .card.mb-3 
-      .card-header Danh sách 
-      .card-body 
-        .row 
-          .col-10
-            if(userRole.permissions.includes("products_edit"))
-              form(
-                action=`/${prefixAdmin}/products/change-multi?_method=PATCH`
-                method="POST"
-                form-change-multi
-              ) 
-                .d-flex.align-items-start
-                  .form-group
-                    select(name="type" class="form-control")
-                      option(disabled selected) -- Chọn hành động --
+              button(class="btn btn-outline-secondary", sort-clear)
+                i(class="fa-solid fa-arrows-rotate")
+          div(class="col-4")
+            +search(keyword)
+    div(class="card mb-3")
+      div(class="card-header")
+        div(class="row align-items-center")
+          div(class="col-3 d-flex align-items-center")
+            span(class="card-head") Danh sách
+          if(userRole.permissions.includes("products_edit"))
+            div(class="col-4 change-multi")
+              form(action=`/${prefixAdmin}/products/change-multi?_method=PATCH`, method="POST", form-change-multi)
+                div(class="d-flex align-items-start")
+                  div(class="form-group mb-0")
+                    select(class="form-control", name="type")
+                      option(disabled, selected) -- Chọn hành động --
                       option(value="active") Hoạt động
                       option(value="inactive") Dừng hoạt động
                       option(value="change-position") Thay đổi vị trí
                       option(value="delete-all") Xóa tất cả
-                  .form-group.d-none
-                    input(
-                      type="text"
-                      name="ids"
-                      value=""
-                      class="form-control"
-                    )
-                  button(type="submit" class="btn btn-primary mx-3") Áp dụng
-          .col-2
-            if(userRole.permissions.includes("products_create"))
-              a(
-                href=`/${prefixAdmin}/products/create`
-                class="btn btn-outline-success"
-              ) + Thêm Mới
+                  div(class="form-group d-none")
+                    input(class="form-control", type="text", name="ids")
+                  button(class="btn button-default mx-1", type="submit") Áp dụng
 
-        table(
-          class="table table-hover table-sm"
-          checkbox-multi
-        )
-            thead
-              tr
+      div(class="card-body py-0")
+        table(class="table table-hover table-sm", checkbox-multi)
+          thead
+            tr
+              th
+                input(type="checkbox", name="checkall")
+              th STT
+              th Hình ảnh
+              th Tiêu đề
+              th Giá
+              th Vị trí
+              th Trạng thái
+              th Tạo bởi
+              th Cập nhật
+          tbody
+            each item, index in products
+              tr(class="table-row")
                 td
-                  input(type="checkbox" name="checkall")
-                th STT
-                th Hình ảnh
-                th Tiêu đề
-                th Giá
-                th Vị trí
-                th Trạng thái
-                th Tạo bởi
-                th Cập nhật
-                th Hành động
+                  input(type="checkbox" name="id" value=item.id)
+                td #{pagination.limitItems * (pagination.currentPage - 1) + index + 1}
+                td
+                  img(class="thumbnail", src=item.thumbnail, alt=item.title)
+                td(class="product-info")
+                  div(class="product-title")
+                    a(href=`/${prefixAdmin}/products/detail/${item.id}`) #{item.title}
+                    div(class="rud-button")
+                      a(class="btn btn-outline-info btn-sm mr-1", href=`/${prefixAdmin}/products/detail/${item.id}`)
+                        i(class="fa-solid fa-eye")
+                      if(userRole.permissions.includes("products_edit"))
+                        a(class="btn btn-outline-warning btn-sm mr-1", href=`/${prefixAdmin}/products/edit/${item.id}`)
+                          i(class="fa-solid fa-pen-to-square")
+                      if(userRole.permissions.includes("products_delete"))
+                        button(class="btn btn-outline-danger btn-sm mr-1", button-delete, data-id=item.id)
+                          i(class="fa-solid fa-trash-can")  
 
-            tbody
-              each item, index in products
-                tr
-                  td
-                    input(type="checkbox" name="id" value=item.id)
-                  td #{pagination.limitItems * (pagination.currentPage - 1) + index + 1}
-                  td
-                    img(
-                      class="thumbnail"
-                      src=item.thumbnail
-                      alt=item.title
-                      width="100px"
-                      height="100px"
-                      style="object-fit: contain;"
-                    )
-                  td #{item.title} 
-                  td #{item.price}$
-                  td
-                    input(
-                      name="position"
-                      value=item.position
-                      type="number"
-                      style="width: 60px;"
-                      min="1"
-                    )
-                  td
-                    if(item.status == "active")
-                      if(userRole.permissions.includes("products_edit"))
-                        button(
-                          button-change-status 
-                          data-id=item.id 
-                          data-status="inactive"
-                          class="badge badge-success"
-                        ) Hoạt động 
-                      else  
-                        span(
-                          class="badge badge-success"
-                        ) Hoạt động 
-                    else 
-                      if(userRole.permissions.includes("products_edit"))
-                        button(
-                          button-change-status 
-                          data-id=item.id 
-                          data-status="active"
-                          class="badge badge-danger"
-                        ) Dừng hoạt động 
-                      else  
-                        span(
-                          class="badge badge-danger"
-                        ) Hoạt động 
-                  td 
-                    div #{item.creatorName}
-                    if(item.createdAt)
-                      div #{moment(item.createdAt).format("DD/MM/YYYY HH:mm:ss")}
-                  td 
-                    div #{item.updaterName || item.creatorName}
+                td #{item.price.toLocaleString()}đ
+
+                td
+                  input(name="position", value=item.position, type="number", style="width: 40px;", min="1")
+
+                td
+                  if(userRole.permissions.includes("products_edit"))
+                    button(class=`badge rounded-pill button-status ${item.status === "active" ? "button-active" : ""}`, button-change-status, data-id=item.id, data-status=`${item.status === "active" ? "inactive" : "active"}`) #{item.status === "active" ? "Hoạt động" : "Dừng hoạt động"}
+                  else 
+                    span(class=`badge rounded-pill button-status ${item.status === "active" ? "button-active" : ""}`) #{user.status === "active" ? "Hoạt động" : "Dừng hoạt động"}
+                td
+                  div #{item.creatorName}
+                  if(item.createdAt)
+                    div #{moment(item.createdAt).format("DD/MM/YYYY HH:mm:ss")}
+                td
+                  div #{item.creatorName}
+                  if(item.updatedAt)
                     div #{moment(item.updatedAt).format("DD/MM/YYYY HH:mm:ss")}
-                  
-                  td
-                    if(userRole.permissions.includes("products_edit"))
-                      a(
-                        href=`/${prefixAdmin}/products/edit/${item.id}`
-                        class="btn btn-warning btn-sm"
-                      ) Sửa
-                    if(userRole.permissions.includes("products_delete"))
-                      button(
-                        class="btn btn-danger btn-sm ml-1"
-                        button-delete 
-                        data-id=item.id
-                      ) Xóa 
-                    a(
-                      href=`/${prefixAdmin}/products/detail/${item.id}`
-                      class="btn btn-secondary btn-sm ml-1"
-                    ) Chi tiết
+
     +pagination(pagination)
 
     form(

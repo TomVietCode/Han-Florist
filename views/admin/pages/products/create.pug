@@ -2,11 +2,12 @@ extends ../../layouts/default.pug
 include ../../mixins/alert.pug
 include ../../mixins/tree.pug
 include ../../mixins/access.pug
+include ../../mixins/box-head.pug
 
 block main
-  +alert-error()
+  +alert-server()
   if(userRole.permissions.includes("products_create"))
-    h1(class="mb-4") Thêm mới sản phẩm
+    +box-head(pageTitle)
 
     form(
       action=`/${prefixAdmin}/products/create`
@@ -15,7 +16,8 @@ block main
       enctype="multipart/form-data"
     )
       div(class="form-group")
-        label(for="title") Tiêu đề *
+        label(for="title") Tiêu đề 
+          span(class="required") *
         input(
           type="text"
           class="form-control"
@@ -61,72 +63,74 @@ block main
           rows="5"
           tinymce-area
         )
-      div(class="form-group")
-        label(for="price") Giá
-        input(
-          type="number"
-          class="form-control"
-          id="price"
-          name="price"
-          value="0"
-          min="0"
-          step="any"
+      .row
+        div(class="form-group col-4")
+          label(for="price") Giá (VNĐ)
+          input(
+            type="number"
+            class="form-control"
+            id="price"
+            name="price"
+            value="0"
+            min="0"
+            step="any"
+          )
+        div(class="form-group col-4")
+          label(for="discount") Giảm giá (%)
+          input(
+            type="number"
+            class="form-control"
+            id="discount"
+            name="discountPercentage"
+            value="0"
+            min="0"
+            step="any"
+          )
+        div(class="form-group col-4")
+          label(for="stock") Số lượng
+          input(
+            type="number"
+            class="form-control"
+            id="stock"
+            name="stock"
+            value="0"
+            min="0"
+          )
+      .row
+        div(
+          class="form-group col-6"
+          upload-image
         )
-      div(class="form-group")
-        label(for="discount") % Giảm giá
-        input(
-          type="number"
-          class="form-control"
-          id="discount"
-          name="discountPercentage"
-          value="0"
-          min="0"
-          step="any"
-        )
-      div(class="form-group")
-        label(for="stock") Số lượng
-        input(
-          type="number"
-          class="form-control"
-          id="stock"
-          name="stock"
-          value="0"
-          min="0"
-        )
-      div(
-        class="form-group"
-        upload-image
-      )
-        label(for="thumbnail") Ảnh
-        input(
-          type="text"
-          class="form-control mb-2"
-          name="thumbnail"
-          placeholder="Nhập link ảnh..."
-        )
-        input(
-          type="file"
-          class="form-control-file"
-          id="thumbnail"
-          name="thumbnail"
-          accept="image/*"
-          upload-image-input
-        )
-        img(
-          src=""
-          class="image-preview"
-          upload-image-preview
-        ) 
-      div(class="form-group")
-        label(for="position") Vị trí
-        input(
-          type="number"
-          class="form-control"
-          id="position"
-          name="position"
-          placeholder="Tự động tăng"
-          min="1"
-        )
+          label(for="thumbnail") Ảnh
+          input(
+            type="text"
+            class="form-control mb-2"
+            name="thumbnail"
+            placeholder="Nhập link ảnh..."
+          )
+          input(
+            type="file"
+            class="form-control-file"
+            id="thumbnail"
+            name="thumbnail"
+            accept="image/*"
+            upload-image-input
+          )
+          img(
+            src=""
+            class="image-preview"
+            upload-image-preview
+          ) 
+        div(class="form-group col-6")
+          label(for="position") Vị trí
+          input(
+            type="number"
+            class="form-control"
+            id="position"
+            name="position"
+            placeholder="Tự động tăng"
+            min="1"
+          )
       div(class="form-group form-check form-check-inline")
         input(
           type="radio"
@@ -149,7 +153,7 @@ block main
       div(class="form-group")
         button(
           type="submit"
-          class="btn btn-primary"
+          class="btn button-default"
         ) Tạo mới
   else
     +accessDenied()

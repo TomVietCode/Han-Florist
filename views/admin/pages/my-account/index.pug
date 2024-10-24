@@ -2,31 +2,44 @@ extends ../../layouts/default.pug
 include ../../mixins/alert.pug
 
 block main
-  +alert-success()
-  +alert-error()
-  .container
-    .profile-card
-      .row
-        .col-md-4
-          if(user.avatar)
-            img(src=user.avatar alt="Avatar" class="avatar img-fluid rounded-circle")
-          else 
-            img(src="/admin/images/avatar.png" alt="Avatar" class="avatar img-fluid rounded-circle")
-        .col-md-8
-          h2= user.fullName
-          p
-            strong Email:
-            |  #{user.email}
-          p
-            strong Phone:
-            |  #{user.phone}
-          p
-            strong Trạng thái:
-            if user.status == 'active'
-              span.badge.badge-success Hoạt động
-            else
-              span.badge.badge-danger Dừng hoạt động
-          p
-            strong Vai trò:
-            |  #{userRole.title}
-          a(href=`/${prefixAdmin}/my-account/edit` class="btn btn-primary") Chỉnh sửa thông tin
+  +alert-server()
+
+  .container.account-profile
+    .row 
+      .col-4
+        .card
+          .card-body 
+            .row.d-flex.justify-content-center
+              .col-12.admin-avatar.d-flex.flex-column.align-item-center.text-center
+                img(class="p-1 bg-success align-self-center" src=user.avatar, alt="")
+                .mt-3 
+                  h4 #{user.fullName}
+                  p(class="text-secondary") #{user.phone || "Chưa có số điện thoại" } 
+            .col-12 
+              .row
+                .col-6
+                  a(class="d-inline-block btn btn-warning text-white text-wrap" href=`/${prefixAdmin}/auth/edit/${user.id}`) Chỉnh sửa thông tin
+                .col-6
+                  a(class="btn btn-danger admin-logout" href=`/${prefixAdmin}/auth/logout`) Đăng xuất                              
+      .col-8
+        .card 
+          .card-body
+            .profile-info 
+              h5 Thông tin tài khoản
+              hr
+              p   
+                strong Họ và tên: 
+                | #{user.fullName}
+              p   
+                strong Email:  
+                | #{user.email}
+              p   
+                strong SĐT: 
+                | #{user.phone || "Chưa có số điện thoại"}
+              p   
+                strong Trạng thái tài khoản: 
+                span(class=`badge rounded-pill button-status ${user.status === "active" ? "button-active" : ""}`) #{user.status === "active" ? "Đang hoạt động" : "Tạm khoá"}
+              p 
+                strong Vai trò:
+                | #{userRole.title}
+

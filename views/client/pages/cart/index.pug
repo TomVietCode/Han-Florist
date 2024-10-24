@@ -6,10 +6,9 @@ block main
     .row
       .col-12
         +box-head("Giỏ hàng")
-
     .row
       .col-12
-        table(class="table table-bordered")
+        table(class="table table-cart")
           thead
             tr
               th STT
@@ -34,7 +33,7 @@ block main
                     a(
                       href=`/products/detail/${product.productInfo.slug}`
                     ) #{product.productInfo.title}
-                  td #{product.productInfo.discountedPrice}$
+                  td #{product.productInfo.discountedPrice}đ
                   td  
                     input(
                       type="number"
@@ -44,17 +43,19 @@ block main
                       item-id=product.product_id
                       style="width: 60px"
                     )
-                  td #{product.totalPrice}$
+                  td #{product.totalPrice.toLocaleString()}đ
                   td
                     a(
                       href=`/cart/delete/${product.product_id}`
-                      class="btn btn-danger"
-                    ) Xóa
+                      class="button-del"
+                    ) Xoá
             else
               p Chưa có sản phẩm nào trong giỏ hàng.
 
         if(cartDetail.products.length > 0)
-          h3(class="text-right") Tổng đơn hàng: #{cartDetail.totalPrice}$
+          h4(class="text-right total-cart") Tổng cộng: 
+            span #{cartDetail.totalPrice.toLocaleString()}đ
 
-          div(class="text-right mt-3")
-            a(href="/checkout" class="btn btn-success") TIẾN HÀNH ĐẶT HÀNG
+          div(class="text-right mt-3 button-action")
+            a(href="javascript:history.back()" class="btn btn-primary") CHỌN THÊM MẪU
+            a(href="/checkout" class="btn btn-primary") ĐẶT HÀNG
