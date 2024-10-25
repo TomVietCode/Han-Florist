@@ -1,11 +1,11 @@
 extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
 
 block main
-  if (product.title)
-    h1(class="mb-4") #{product.title}
+  +box-head(product.title)
 
   if (product.price)
-    div(class="mb-4") Giá: <b>#{product.price}$</b>
+    div(class="mb-4") Giá: <b>#{product.price.toLocaleString()}đ</b>
 
   if (product.discountPercentage)
     div(class="mb-4") Giảm giá: <b>#{product.discountPercentage}%</b>
@@ -32,9 +32,10 @@ block main
     div(class="mb-4") Vị trí: <b>#{product.position}</b>
 
   if (product.description)
+    span Mô tả:
     div(class="mb-4") !{product.description}
 
   a(
     href=`/${prefixAdmin}/products/edit/${product.id}`
-    class="btn btn-warning btn-sm"
+    class="btn btn-warning btn-sm px-4 py-2 text-white"
   ) Sửa

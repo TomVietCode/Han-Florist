@@ -19,8 +19,6 @@ mixin table-tree(items, level = 1)
         div(class="product-title")
           a(href=`/${prefixAdmin}/product-category/detail/${item.id}`) #{prefix}#{item.title}
           div(class="rud-button")
-            a(class="btn btn-outline-info btn-sm mr-1", href=`/${prefixAdmin}/product-category/detail/${item.id}`)
-              i(class="fa-solid fa-eye")
             if(userRole.permissions.includes("products-category_edit"))
               a(class="btn btn-outline-warning btn-sm mr-1", href=`/${prefixAdmin}/product-category/edit/${item.id}`)
                 i(class="fa-solid fa-pen-to-square")
